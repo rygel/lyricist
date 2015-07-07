@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
+import rygel.lyricist.Lyricist;
 
 /**
  * A simple Pippo application.
@@ -48,6 +49,10 @@ public class PippoApplication extends Application {
             }
 
         });
+
+        Lyricist lyricist = new Lyricist(this);
+        lyricist.registerLyricist("rootBlog", "/");
+        lyricist.registerLyricist("blog", "/blog/");
     }
 
 }
