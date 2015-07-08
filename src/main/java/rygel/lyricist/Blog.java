@@ -1,6 +1,5 @@
 package rygel.lyricist;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +23,7 @@ public class Blog {
     private String directory;
     private String name;
     private Map<String, Post> posts = new HashMap<>();
+    private Map<String, Object> context = new HashMap<>();
 
     public Blog(String newName, String newDirectory) {
         if (!Files.isDirectory(Paths.get(newDirectory))) {
@@ -62,12 +62,24 @@ public class Blog {
         return posts.get(name);
     }
 
+    public void putAllContext(Map<String, Object> context) {
+        if (context != null) {
+            context.putAll(context);
+        } else {
+            LOGGER.debug("Null object given for context of blog \"" + name + "\".");
+        }
+    }
+
+    public Map<String, Object> getContext() {
+        return context;
+    }
+
     private void readDirectory() {
         posts.clear();
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(directory))) {
             for (Path path : directoryStream) {
-                Post file = new Post(path.toString());
-                posts.put(FilenameUtils.removeExtension(path.getFileName().toString()), file);
+                Post post = new Post(path.toString());
+                posts.put(post.getSlug(), post);
             }
         } catch (IOException ex) {
             LOGGER.error("[Blog: " + name + "] Error reading post directory (" + directory + "): ", ex.getCause());
