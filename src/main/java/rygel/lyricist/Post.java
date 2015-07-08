@@ -1,5 +1,6 @@
 package rygel.lyricist;
 
+import org.apache.commons.io.FilenameUtils;
 import org.pegdown.PegDownProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ public class Post {
     private Map< String, Object> frontMatter = new HashMap<>();
     private String content = "";
     private String filename;
+    private String slug;
 
     public Post(String newFilename) {
         filename = newFilename;
@@ -38,7 +40,11 @@ public class Post {
         return frontMatter;
     }
 
-    public final void parse() throws IOException {
+    public String getSlug() {
+        return slug;
+    }
+
+    private final void parse() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         // detect YAML front matter
@@ -72,6 +78,13 @@ public class Post {
     private void parseYamlFrontMatter(String yamlString) {
         Yaml yaml = new Yaml();
         frontMatter = (Map< String, Object>) yaml.load(yamlString);
+        String fmSlug = (String)frontMatter.get(Constants.SLUG_ID);
+        if (fmSlug != null) {
+            slug = fmSlug;
+        } else {
+            //TODO: slugify!
+            slug = FilenameUtils.removeExtension(filename);
+        }
     }
 
     private void parseMarkdown(BufferedReader br) throws IOException {

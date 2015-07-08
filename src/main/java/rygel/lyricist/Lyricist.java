@@ -15,21 +15,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Alexander on 08.06.2015.
+ * Created by Alexander Brandt on 08.06.2015.
  */
 public final class Lyricist {
     private final static Logger LOGGER = LoggerFactory.getLogger(Lyricist.class);
-    private static Lyricist lyricist;
     private final Application application;
 
     private Map<String, Blog> blogs = new HashMap<>();
-
-    /*public static Lyricist getInstance() {
-        if (lyricist == null) {
-            lyricist = new Lyricist();
-        }
-        return lyricist;
-    }*/
 
     public Lyricist (Application application) {
         this.application = application;
@@ -43,38 +35,56 @@ public final class Lyricist {
                 return;
             }
             URL location = ClasspathUtils.locateOnClasspath("lyricist/" + splits[1]);
-            String basedir = System.getProperty("user.dir") + "/src/main/resources/lyricist/";
-            Blog blog = new Blog(splits[0], basedir + splits[1]);
-            blogs.put(splits[0], blog);
+            if (location == null) {
+                LOGGER.error("The directory for the blog data (\"" + splits[1] + "\") for blog \"" + splits[0]
+                        + "\" does not exist or does not contain any files! The blog will not be loaded.");
+            } else {
+                String basedir = System.getProperty("user.dir") + "/src/main/resources/lyricist/";
+                Blog blog = new Blog(splits[0], location);
+                blogs.put(splits[0], blog);
+                LOGGER.debug("Added blog \"" + splits[0] + "\" with its data directory: " + location + ".");
+            }
         }
-
-        LOGGER.debug(blogStrings.toString());
     }
 
-    public void registerLyricist(String blogName, String pattern) {
-        if (!doesBlogExist(blogName)) {
-            LOGGER.error("The blog with the name \"" + blogName + "\" does not exist!");
+    public void registerBlog(String blogName, String pattern) {
+            registerBlog(blogName, pattern, null);
+    }
+
+    public void registerBlog(String name, String pattern, Map<String, Object> context) {
+        if (!doesBlogExist(name)) {
+            LOGGER.error("Cannot register blog. The blog with the name \"" + name + "\" does not exist!");
             return;
         }
 
-        final Map<String, Post> posts = blogs.get(blogName).getPosts();
+        final Blog blog = blogs.get(name);
+        blog.putAllContext(context);
+        final Map<String, Post> posts = blog.getPosts();
         for (final String item : posts.keySet()) {
             String route = pattern + item;
             application.GET(route, new RouteHandler() {
                 @Override
                 public void handle(RouteContext routeContext) {
-                    final Map<String, Object> context = new TreeMap<String, Object>();
+                    final Map<String, Object> context = blog.getContext();
                     context.put("content", posts.get(item).getContent());
-                    context.put("post", posts.get(item).getFrontMatter());
-                    context.put("title", posts.get(item).getFrontMatter().get("title") + " - ") ; //+ Global.NAME);
+                    context.put("header", posts.get(item).getFrontMatter());
+                    context.put("title", posts.get(item).getFrontMatter().get("title")) ;
                     routeContext.render("post", context);
                 }
             });
         }
     }
 
-    private boolean doesBlogExist(String blogName) {
-        if (blogs.containsKey(blogName)) {
+    public Blog getBlog(String name) {
+        if (doesBlogExist(name)) {
+            return blogs.get(name);
+        } else {
+            return null;
+        }
+    }
+
+    private boolean doesBlogExist(String name) {
+        if (blogs.containsKey(name)) {
             return true;
         }
         else {

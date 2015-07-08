@@ -7,6 +7,9 @@ import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
 import rygel.lyricist.Lyricist;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * A simple Pippo application.
  *
@@ -50,9 +53,11 @@ public class PippoApplication extends Application {
 
         });
 
+        Map<String, Object> blogContext = new TreeMap<>();
+        blogContext.put("pageTitle", "Lyricist Blog");
         Lyricist lyricist = new Lyricist(this);
-        lyricist.registerLyricist("rootBlog", "/");
-        lyricist.registerLyricist("blog", "/blog/");
+        lyricist.registerBlog("rootBlog", "/");
+        lyricist.registerBlog("blog", "/blog/");
     }
 
 }
