@@ -57,7 +57,7 @@ public class PippoApplication extends Application {
         blogContext.put("pageTitle", "Lyricist Blog");
         Lyricist lyricist = new Lyricist(this);
         lyricist.registerBlog("rootBlog", "/");
-        lyricist.registerBlog("blog", "/blog/");
+        lyricist.registerBlog("blog", "/blog/", blogContext);
     }
 
 }

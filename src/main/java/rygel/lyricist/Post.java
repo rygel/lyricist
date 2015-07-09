@@ -9,26 +9,33 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
  * Created by Alexander on 08.06.2015.
  */
 public class Post {
-    private final static Logger logger = LoggerFactory.getLogger(Post.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(Post.class);
 
     private Map< String, Object> frontMatter = new HashMap<>();
     private String content = "";
     private String filename;
     private String slug;
+    private Date published;
+    private Date validUntil;
 
     public Post(String newFilename) {
         filename = newFilename;
         try {
             parse();
         } catch (IOException ex) {
-            logger.error("Error reading post (" + filename + "): ", ex.getCause());
+            LOGGER.error("Error reading post (" + filename + "): ", ex.getCause());
         }
     }
 
@@ -50,7 +57,7 @@ public class Post {
         // detect YAML front matter
         String line = br.readLine();
         if (line == null) {
-            logger.warn("File \"" + filename + "\" is empty.");
+            LOGGER.warn("File \"" + filename + "\" is empty.");
             return;
         }
         while (line.isEmpty()) {
@@ -83,8 +90,12 @@ public class Post {
             slug = fmSlug;
         } else {
             //TODO: slugify!
-            slug = FilenameUtils.removeExtension(filename);
+            String filename2 = FilenameUtils.getName(filename);
+            slug = FilenameUtils.removeExtension(filename2);
         }
+        //String published2 = (String)frontMatter.get(Constants.PUBLISHED_ID);
+        published = (Date)frontMatter.get(Constants.PUBLISHED_ID);
+        validUntil = (Date)frontMatter.get(Constants.VALID_UNTIL_ID);
     }
 
     private void parseMarkdown(BufferedReader br) throws IOException {

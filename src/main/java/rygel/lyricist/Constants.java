@@ -11,4 +11,6 @@ public class Constants {
     public static final String VALID_UNTIL_ID = "validUntil";
     public static final String DRAFT_ID = "draft";
     public static final String CONTEXT_ID = "context";
+    public static final String CATEGORY_ID = "category";
+    public static final String TAGS_ID = "tags";
 }

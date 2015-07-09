@@ -11,8 +11,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Alexander Brandt on 07.07.2015.
@@ -23,16 +22,8 @@ public class Blog {
     private String directory;
     private String name;
     private Map<String, Post> posts = new HashMap<>();
+    private SortedMap<Date, Post> postsOrderedByDate = new TreeMap<>();
     private Map<String, Object> context = new HashMap<>();
-
-    public Blog(String newName, String newDirectory) {
-        if (!Files.isDirectory(Paths.get(newDirectory))) {
-            LOGGER.warn("The directory \"" + newDirectory + "\" does not exist!");
-        }
-        this.directory = newDirectory;
-        this.name = newName;
-        readDirectory();
-    }
 
     public Blog(String newName, URL newDirectory) {
         File file;
@@ -62,9 +53,13 @@ public class Blog {
         return posts.get(name);
     }
 
+    public SortedMap<Date, Post> getPosts(Date from, Date to) {
+        return postsOrderedByDate;
+    }
+
     public void putAllContext(Map<String, Object> context) {
         if (context != null) {
-            context.putAll(context);
+            this.context.putAll(context);
         } else {
             LOGGER.debug("Null object given for context of blog \"" + name + "\".");
         }
