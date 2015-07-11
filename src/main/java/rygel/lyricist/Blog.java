@@ -20,6 +20,8 @@ public class Blog {
     private final static Logger LOGGER = LoggerFactory.getLogger(Blog.class);
 
     private String directory;
+    private String postsDirectory;
+    private String authorsDirectory;
     private String name;
     private Map<String, Post> posts = new HashMap<>();
     private SortedMap<Date, Post> postsOrderedByDate = new TreeMap<>();

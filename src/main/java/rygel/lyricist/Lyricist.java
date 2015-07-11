@@ -39,7 +39,6 @@ public final class Lyricist {
                 LOGGER.error("The directory for the blog data (\"" + splits[1] + "\") for blog \"" + splits[0]
                         + "\" does not exist or does not contain any files! The blog will not be loaded.");
             } else {
-                String basedir = System.getProperty("user.dir") + "/src/main/resources/lyricist/";
                 Blog blog = new Blog(splits[0], location);
                 blogs.put(splits[0], blog);
                 LOGGER.debug("Added blog \"" + splits[0] + "\" with its data directory: " + location + ".");
