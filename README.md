@@ -26,6 +26,7 @@ category: [java, web]
 published: 2015-07-01T01:02:03
 valid_until: 2015-08-01T00:00:00
 draft: false
+authors: [admin, rygel]
 context: 
   pageWide
 ---
@@ -42,6 +43,11 @@ library is used to handle the conversion from Markdown to HTML.
 - Use a directory watcher to look for new or removed posts and update the blog accordingly.
 - Add a read more link.
 - Let the read more link be configurable.
+- Add separate directory for author markdown files.
+- Add and use authors field in front matter.
+- Add route for displaying all authors of a site.
+- Add routes for categories, tags, archive.
+- Get a list of all tags, with the no of how often they are used (to create tag clouds).
 
 ## DONE
 - Add global static context for each blog.
