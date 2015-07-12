@@ -41,7 +41,7 @@ library is used to handle the conversion from Markdown to HTML.
 
 #### Embed Lyricist in Pippo
 In your PippoApplication (where all routes are defined) 
-```
+```java
 Map<String, Object> blogContext = new TreeMap<>();
 blogContext.put("pageTitle", "Lyricist Blog");
 Lyricist lyricist = new Lyricist(this);
