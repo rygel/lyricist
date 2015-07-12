@@ -1,9 +1,8 @@
 ---
 layout: author
 shortName: rygel
-firstName: Rygel
+firstName: Dominar Rygel
 lastName: VII
-title: Dominar
 context: 
   pageWide
 ---

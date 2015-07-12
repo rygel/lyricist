@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{title}} - {{pageTitle}}</title>
+    <title>{{post.title}} - {{pageTitle}}</title>
 </head>
 <body>
-<h1>{{title}}</h1>
+<h1>{{post.title}}</h1>
+<h6>Published: {{post.published}}</h6>
 {{content|raw}}
+<p>Authors:
+{% for author in authors %}
+    <a href="{{ author.url }}">{{ author.frontMatter.firstName }} {{ author.frontMatter.lastName }}</a>
+{% else %}
+    <p> There are no authors. </p>
+{% endfor %}
+</p>
 </body>
 </html>

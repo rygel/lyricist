@@ -13,4 +13,10 @@ public class Constants {
     public static final String CONTEXT_ID = "context";
     public static final String CATEGORY_ID = "category";
     public static final String TAGS_ID = "tags";
+    public static final String SHORT_NAME_ID = "shortName";
+    public static final String AUTHORS_DIR = "/authors";
+    public static final String POSTS_DIR = "/posts";
+    public static final String AUTHORS_ROUTE = "authors/";
+    public static final String CATEGORIES_ROUTE = "categories/";
+    public static final String TAGS_ROUTE = "tags/";
 }

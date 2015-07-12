@@ -9,16 +9,14 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Alexander Brandt on 08.06.2015.
+ * Created by Alexander Brandt on 11.07.2015.
  */
-public class Post {
+public abstract class Page {
     private final static Logger LOGGER = LoggerFactory.getLogger(Post.class);
 
     private Map<String,Object> frontMatter = new HashMap<>();
@@ -26,13 +24,11 @@ public class Post {
     private Map<String,Post> authors = new HashMap<>();
     private String content = "";
     private String filename;
-    private String slug;
-    private String url;
-    private String shortName = "";
+    private String id;
     private Date published;
     private Date validUntil;
 
-    public Post(String newFilename, Map<String, Post> authors) {
+    public Page(String newFilename, Map<String, Post> authors) {
         filename = newFilename;
         this.authors = authors;
         try {
@@ -46,28 +42,12 @@ public class Post {
         return content;
     }
 
-    public void addContext(String key, Object value) {
-        context.put(key, value);
-    }
-
-    public void setUrl(String newUrl) {
-        url = newUrl;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
     public Map< String, Object> getFrontMatter() {
         return frontMatter;
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public String getShortName() {
-        return (String)context.get("shortName");
+    public String getID() {
+        return id;
     }
 
     public String getLayout() {
@@ -107,7 +87,6 @@ public class Post {
         // parse data
         parseYamlFrontMatter(sb.toString());
         parseMarkdown(br);
-        addAuthors();
     }
 
     private void parseYamlFrontMatter(String yamlString) {
@@ -115,14 +94,14 @@ public class Post {
         frontMatter = (Map< String, Object>) yaml.load(yamlString);
         String fmSlug = (String)frontMatter.get(Constants.SLUG_ID);
         if (fmSlug != null) {
-            slug = fmSlug;
+            id = fmSlug;
         } else {
             //TODO: slugify!
             String filename2 = FilenameUtils.getName(filename);
-            slug = FilenameUtils.removeExtension(filename2);
+            id = FilenameUtils.removeExtension(filename2);
         }
-        context.put("slug", slug);
-        context.put("shortName", (String)frontMatter.get(Constants.SHORT_NAME_ID));
+        context.put("slug", id);
+        //String published2 = (String)frontMatter.get(Constants.PUBLISHED_ID);
         published = (Date)frontMatter.get(Constants.PUBLISHED_ID);
         validUntil = (Date)frontMatter.get(Constants.VALID_UNTIL_ID);
     }
@@ -131,16 +110,5 @@ public class Post {
         String markdown = org.apache.commons.io.IOUtils.toString(br);
         PegDownProcessor processor = new PegDownProcessor();
         content = processor.markdownToHtml(markdown);
-    }
-    private void addAuthors() {
-        List<String> shortAuthors = (List<String>)frontMatter.get("authors");
-        if ((authors != null) && (shortAuthors != null)) {
-            List<Post> authorList = new ArrayList<>();
-            for (String shortAuthor: shortAuthors) {
-                Post author = authors.get(shortAuthor);
-                authorList.add(author);
-            }
-            context.put("authors", authorList);
-        }
     }
 }

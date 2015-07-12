@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by Alexander Brandt on 08.06.2015.
@@ -23,12 +22,12 @@ public final class Lyricist {
 
     private Map<String, Blog> blogs = new HashMap<>();
 
-    public Lyricist (Application application) {
+    public Lyricist(Application application) {
         this.application = application;
 
         PippoSettings settings = application.getPippoSettings();
         List<String> blogStrings = settings.getStrings("lyricist.blogs");
-        for (String blogString: blogStrings) {
+        for (String blogString : blogStrings) {
             String[] splits = blogString.split(":");
             if (splits.length != 2) {
                 LOGGER.error("Wrong blog definition (" + blogString + ")! Must be [blogName]:[blogDirectory].");
@@ -47,10 +46,10 @@ public final class Lyricist {
     }
 
     public void registerBlog(String blogName, String pattern) {
-            registerBlog(blogName, pattern, null);
+        registerBlog(blogName, pattern, null);
     }
 
-    public void registerBlog(String name, String pattern, Map<String, Object> context) {
+    public void registerBlog(String name, final String pattern, Map<String, Object> context) {
         if (!doesBlogExist(name)) {
             LOGGER.error("Cannot register blog. The blog with the name \"" + name + "\" does not exist!");
             return;
@@ -59,19 +58,23 @@ public final class Lyricist {
         final Blog blog = blogs.get(name);
         blog.putAllContext(context);
         final Map<String, Post> posts = blog.getPosts();
-        for (final String item : posts.keySet()) {
-            String route = pattern + item;
+        for (final Map.Entry<String, Post> entry : posts.entrySet()) {
+            String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
+            final Post post = entry.getValue();
+            post.setUrl(pattern + post.getContext().get(Constants.SLUG_ID));
             application.GET(route, new RouteHandler() {
                 @Override
                 public void handle(RouteContext routeContext) {
                     final Map<String, Object> context = blog.getContext();
-                    context.put("content", posts.get(item).getContent());
-                    context.put("header", posts.get(item).getFrontMatter());
-                    context.put("title", posts.get(item).getFrontMatter().get("title")) ;
-                    routeContext.render("post", context);
+                    context.putAll(post.getContext());
+                    context.put("content", post.getContent());
+                    context.put("post", post.getFrontMatter());
+                    routeContext.render(post.getLayout(), context);
                 }
             });
         }
+
+        registerBlogAuthors(blog, pattern);
     }
 
     public Blog getBlog(String name) {
@@ -85,9 +88,52 @@ public final class Lyricist {
     private boolean doesBlogExist(String name) {
         if (blogs.containsKey(name)) {
             return true;
-        }
-        else {
+        } else {
             return false;
+        }
+    }
+
+    private void registerBlogAuthors(final Blog blog, final String pattern) {
+        final Map<String, Post> authors = blog.getAuthors();
+
+        for (final Map.Entry<String, Post> entry : authors.entrySet()) {
+            String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
+            Post post = entry.getValue();
+            post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getContext().get(Constants.SLUG_ID));
+            application.GET(route, new RouteHandler() {
+                @Override
+                public void handle(RouteContext routeContext) {
+                    final Map<String, Object> context = blog.getContext();
+                    final Post author = authors.get(entry.getKey());
+                    context.putAll(author.getContext());
+                    context.put("content", author.getContent());
+                    context.put("post", author.getFrontMatter());
+                    context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
+                    routeContext.render(author.getLayout(), context);
+                }
+            });
+        }
+    }
+
+    private void registerCategories(final Blog blog, final String pattern) {
+        final Map<String, Post> authors = blog.getPosts();
+
+        for (final Map.Entry<String, Post> entry : authors.entrySet()) {
+            String route = pattern + Constants.CATEGORIES_ROUTE + entry.getKey();
+            Post post = entry.getValue();
+            post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getContext().get(Constants.SLUG_ID));
+            application.GET(route, new RouteHandler() {
+                @Override
+                public void handle(RouteContext routeContext) {
+                    final Map<String, Object> context = blog.getContext();
+                    final Post author = authors.get(entry.getKey());
+                    context.putAll(author.getContext());
+                    context.put("content", author.getContent());
+                    context.put("post", author.getFrontMatter());
+                    context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
+                    routeContext.render(author.getLayout(), context);
+                }
+            });
         }
     }
 
