@@ -1,6 +1,13 @@
 # Lyricist
 
-A blog engine for Pippo. It is inspired by [Poet](http://jsantell.github.io/poet/).
+A blog engine for [Pippo](https://github.com/decebals/pippo). It is inspired by [Poet](http://jsantell.github.io/poet/). It supports the following features:
+- drafts
+- authors
+- categories
+- tags
+- blog and post level context
+- multiple blogs
+- valid until management
 
 
 ## How to use
@@ -55,8 +62,32 @@ Key           | Description
 layout        | The name of the layout file as registered with Pippo.
 title         | The title of the post.
 slug          | The slug of the post (optional).
-tags          | The tags of the post (optional).
-category      | The categories this post belongs to (optional).
+tags          | The tags of the post (optional). **(not yet implemented)**
+category      | The categories this post belongs to (optional). **(not yet implemented)**
+draft         | Flag (true, false) if the post is in draft state or not. **(not yet implemented)**
+published     | Date when the post is/was published.
+validUntil    | Date until when the post will be valid. **(not yet implemented)**
+authors       | List of authors for this post. See author support.
+context       | Additional post level context.
+
+## Concepts
+
+### Context
+To be able to render every blog posting, author page, etc., a so called context is required. This context provides the 
+data needed by the template engine to render the page. For example the ```title``` of a blog post is part of the context.
+In the layout file for the post the template engine accesses the context to get the post title. There are different 
+context levels inside Lyricist. 
+#### Blog Level Context
+The blog level context is part of the whole blog, i.e. it will be accessible inside every post. It can be defined via
+the overloaded ```registerBlog(name, pattern, context)``` method. The context object is a ```Map<String, Object>```.
+```java
+Map<String, Object> blogContext = new TreeMap<>();
+blogContext.put("pageTitle", "Lyricist Blog");
+lyricist.registerBlog("blog", "/blog/", blogContext);
+```
+
+#### Post Level Context
+The post level context is part of the specific post, i.e. it will be only accessible inside that specific post.
 
 ## TODO
 - Add the ability to change context manually for each blog, e.g. lyricist.changeContext();
