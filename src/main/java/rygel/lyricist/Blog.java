@@ -38,6 +38,7 @@ public class Blog {
     private Map<String, Post> authors = new HashMap<>();
     private Map<String, List<Post>> postsByCategory = new TreeMap<>();
     private Map<String, List<Post>> postsByTag = new TreeMap<>();
+    public List<Object> globalContext = new ArrayList<>();
 
     private String checkIfDirectoryExists(String newDirectory) {
         File file = new File(newDirectory);
@@ -144,9 +145,9 @@ public class Blog {
             for (Path path : directoryStream) {
                 Post post = new Post(path.toString(), authors);
                 if (post.getDraft()) {
-                    result.put(post.getSlug(), post);
-                } else {
                     drafts.put(post.getSlug(), post);
+                } else {
+                    result.put(post.getSlug(), post);
                 }
                 addPostToCategories(post);
                 addPostToTags(post);

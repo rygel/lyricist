@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Alexander Brandt on 08.06.2015.
@@ -54,6 +55,7 @@ public class Post {
 
     public void setUrl(String newUrl) {
         url = newUrl;
+        frontMatter.put("url", newUrl);
     }
 
     public String getUrl() {
@@ -89,6 +91,14 @@ public class Post {
     }
 
     public Map<String, Object> getContext() {
+        return context;
+    }
+
+    public Map<String, Object> getDefaultContext() {
+        final Map<String, Object> context = new TreeMap<>();
+        context.put("content", getContent());
+        context.put("post", getFrontMatter());
+
         return context;
     }
 
@@ -131,10 +141,10 @@ public class Post {
         if (fmSlug != null) {
             slug = fmSlug;
         } else {
-            //TODO: slugify!
             String filename2 = FilenameUtils.getName(filename);
             slug = FilenameUtils.removeExtension(filename2);
             slug = Utilities.slugify(slug);
+            frontMatter.put("slug", slug);
         }
         //context.put("slug", slug);
         context.put("shortName", (String)frontMatter.get(Constants.SHORT_NAME_ID));

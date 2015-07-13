@@ -1,11 +1,17 @@
+{% extends "parent" %}
+
+
+{% block title %} {{post.firstName}} {{post.lastName}} - {{pageTitle}} {% endblock %}
+
+{{content|raw}}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{post.title}} - {{pageTitle}}</title>
+    <title></title>
 </head>
 <body>
 <h1>{{post.title}}</h1>
 <h6>Published: {{post.published}}</h6>
-{{content|raw}}
+
 </body>
 </html>

@@ -4,14 +4,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.PippoSettings;
+import ro.pippo.core.route.Route;
 import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
+import ro.pippo.core.route.Router;
 import ro.pippo.core.util.ClasspathUtils;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Alexander Brandt on 08.06.2015.
@@ -65,9 +69,11 @@ public final class Lyricist {
         preparePostings(blog, pattern);
         final Map<String, Post> posts = blog.getPosts();
         for (final Map.Entry<String, Post> entry : posts.entrySet()) {
-            String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
+            String route = pattern + entry.getKey();
             final Post post = entry.getValue();
-            post.setUrl(pattern + post.getContext().get(Constants.SLUG_ID));
+            //Route checking here?
+            //Router router = application.getRouter();
+            //List<Route> routes = router.getRoutes();
             application.GET(route, new RouteHandler() {
                 @Override
                 public void handle(RouteContext routeContext) {
@@ -104,9 +110,11 @@ public final class Lyricist {
     private void preparePostings(Blog blog, final String pattern) {
         final Map<String, Post> posts = blog.getPosts();
         Layouts layouts = blog.getLayouts();
+        final List<Object> globalContext = new ArrayList<>();
         for (Map.Entry<String, Post> entry : posts.entrySet()) {
             Post post = entry.getValue();
-            post.setUrl(pattern + post.getContext().get(Constants.SLUG_ID));
+            post.setUrl(pattern + post.getFrontMatter().get(Constants.SLUG_ID));
+            globalContext.add(post.getFrontMatter());
 
             // Layout check
             if (post.getLayout() == null) {
@@ -118,6 +126,7 @@ public final class Lyricist {
                         + "Please add either a global post layout via Layout or a local one via the posts front matter!");
             }
         }
+        blog.globalContext = globalContext;
     }
 
     private void registerBlogAuthors(final Blog blog, final String pattern) {
@@ -126,7 +135,8 @@ public final class Lyricist {
         for (final Map.Entry<String, Post> entry : authors.entrySet()) {
             String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
             Post post = entry.getValue();
-            post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getContext().get(Constants.SLUG_ID));
+            String temp = (String)post.getFrontMatter().get(Constants.SHORT_NAME_ID);
+            post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getFrontMatter().get(Constants.SHORT_NAME_ID));
             application.GET(route, new RouteHandler() {
                 @Override
                 public void handle(RouteContext routeContext) {
@@ -143,13 +153,13 @@ public final class Lyricist {
     }
 
     private void registerBlogPage(final Blog blog, final String pattern) {
-        String route = pattern;
+        String route = Utilities.removeTrailingSlash(pattern);
         application.GET(route, new RouteHandler() {
             @Override
             public void handle(RouteContext routeContext) {
                 final Map<String, Object> context = blog.getContext();
                 context.put("url", pattern);
-                context.put("blog", blog);
+                context.put("blog", blog.globalContext);
                 context.put("posts", blog.getPosts());
                 routeContext.render(blog.getLayouts().getBlog(), context);
             }

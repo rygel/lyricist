@@ -1,6 +1,7 @@
 # Lyricist
 
-A blog/static pages engine for [Pippo](https://github.com/decebals/pippo). It is inspired by [Poet](http://jsantell.github.io/poet/). It supports the following features:
+A blog/static pages engine for [Pippo](https://github.com/decebals/pippo). It is inspired by
+ [Poet](http://jsantell.github.io/poet/). It supports the following features:
 - [Author Pages](#author_pages)
 - [Blog and Post Level Context](#context)
 - Categories
@@ -136,7 +137,7 @@ context       | Additional post level context.
 
 ### Context<a name='context'/>
 To be able to render every blog posting, author page, etc., a so called context is required. This context provides the 
-data needed by the template engine to render the page. For example the ```title``` of a blog post is part of the context.
+data needed by the template engine to render the page. For example the `title` of a blog post is part of the context.
 In the layout file for the post the template engine accesses the context to get the post title. There are different 
 context levels inside Lyricist. 
 #### Blog Level Context
@@ -161,19 +162,20 @@ TODO: Explain the default slug creation algorithm.
 ## TODO
 - Add the ability to change context manually for each blog, e.g. lyricist.changeContext();
 - Add the ability to add context to each document.
-- Automatic slug creation of file name if no slug is given!
 - Use a directory watcher to look for new or removed posts and update the blog accordingly.
 - Add a read more link.
 - Let the read more link be configurable.
 - Add route for displaying all authors of a site.
 - Add routes for categories, tags, archive.
 - Add validUntil support.
-- Add draft support.
+- Add checking if a route for a post already exists.
 
 ## DONE
 - Add global static context for each blog.
 - Add separate directory for author markdown files.
 - Add and use authors field in front matter.
+- Add draft support.
+- Automatic slug creation of file name if no slug is given!
 
 
 ## Dependencies
