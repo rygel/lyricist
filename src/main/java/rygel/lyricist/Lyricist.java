@@ -45,18 +45,20 @@ public final class Lyricist {
         }
     }
 
-    public void registerBlog(String blogName, String pattern) {
-        registerBlog(blogName, pattern, null);
+    public void registerBlog(String blogName, String pattern, Layouts layouts) {
+        registerBlog(blogName, pattern, layouts, null);
     }
 
-    public void registerBlog(String name, final String pattern, Map<String, Object> context) {
+    public void registerBlog(String name, final String pattern, final Layouts layouts, Map<String, Object> context) {
         if (!doesBlogExist(name)) {
             LOGGER.error("Cannot register blog. The blog with the name \"" + name + "\" does not exist!");
             return;
         }
 
         final Blog blog = blogs.get(name);
+        blog.setLayouts(layouts);
         blog.putAllContext(context);
+        preparePostings(blog, pattern);
         final Map<String, Post> posts = blog.getPosts();
         for (final Map.Entry<String, Post> entry : posts.entrySet()) {
             String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
@@ -69,12 +71,14 @@ public final class Lyricist {
                     context.putAll(post.getContext());
                     context.put("content", post.getContent());
                     context.put("post", post.getFrontMatter());
+
                     routeContext.render(post.getLayout(), context);
                 }
             });
         }
 
         registerBlogAuthors(blog, pattern);
+        registerBlogPage(blog, pattern);
     }
 
     public Blog getBlog(String name) {
@@ -90,6 +94,25 @@ public final class Lyricist {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void preparePostings(Blog blog, final String pattern) {
+        final Map<String, Post> posts = blog.getPosts();
+        Layouts layouts = blog.getLayouts();
+        for (Map.Entry<String, Post> entry : posts.entrySet()) {
+            Post post = entry.getValue();
+            post.setUrl(pattern + post.getContext().get(Constants.SLUG_ID));
+
+            // Layout check
+            if (post.getLayout() == null) {
+                // If there is no local layout use the global one
+                post.setLayout(layouts.getPost());
+            }
+            if (post.getLayout() == null) {
+                LOGGER.error("No layout available for post \"" + post.getFilename() + "\"! "
+                        + "Please add either a global post layout via Layout or a local one via the posts front matter!");
+            }
         }
     }
 
@@ -113,6 +136,20 @@ public final class Lyricist {
                 }
             });
         }
+    }
+
+    private void registerBlogPage(final Blog blog, final String pattern) {
+        String route = pattern;
+        application.GET(route, new RouteHandler() {
+            @Override
+            public void handle(RouteContext routeContext) {
+                final Map<String, Object> context = blog.getContext();
+                context.put("url", pattern);
+                context.put("blog", blog);
+                context.put("posts", blog.getPosts());
+                routeContext.render(blog.getLayouts().getBlog(), context);
+            }
+        });
     }
 
     private void registerCategories(final Blog blog, final String pattern) {

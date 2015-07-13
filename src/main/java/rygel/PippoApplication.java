@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
+import rygel.lyricist.Layouts;
 import rygel.lyricist.Lyricist;
 
 import java.util.Map;
@@ -55,9 +56,10 @@ public class PippoApplication extends Application {
 
         Map<String, Object> blogContext = new TreeMap<>();
         blogContext.put("pageTitle", "Lyricist Blog");
+        Layouts layouts = new Layouts("blog", null, null, null, null, null);
         Lyricist lyricist = new Lyricist(this);
-        lyricist.registerBlog("rootBlog", "/");
-        lyricist.registerBlog("blog", "/blog/", blogContext);
+        lyricist.registerBlog("rootBlog", "/", layouts);
+        lyricist.registerBlog("blog", "/blog/", layouts, blogContext);
     }
 
 }

@@ -64,7 +64,7 @@ title         | The title of the post.
 slug          | The slug of the post (optional).
 tags          | The tags of the post (optional). **(not yet implemented)**
 category      | The categories this post belongs to (optional). **(not yet implemented)**
-draft         | Flag (true, false) if the post is in draft state or not. **(not yet implemented)**
+draft         | Flag (true, false) if the post is in draft state or not.
 published     | Date when the post is/was published.
 validUntil    | Date until when the post will be valid. **(not yet implemented)**
 authors       | List of authors for this post. See author support.
