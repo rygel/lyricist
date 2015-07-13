@@ -98,7 +98,7 @@ title         | The title of the post.
 slug          | The slug of the post (optional). When no slug is given, a default one is created. See [Slug Creation](#slug_creation).
 tags          | The tags of the post (optional). **(not yet implemented)**
 category      | The categories this post belongs to (optional). **(not yet implemented)**
-draft         | Flag (true, false) if the post is in draft state or not. **(not yet implemented)**
+draft         | Flag (true, false) if the post is in draft state or not.
 published     | Date when the post is/was published.
 validUntil    | Date until when the post will be valid. **(not yet implemented)**
 authors       | List of authors for this post. Here the short name of an author must be used. See [Author Pages](#author_pages).

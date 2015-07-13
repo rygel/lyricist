@@ -27,7 +27,9 @@ public class Post {
     private String content = "";
     private String filename;
     private String slug;
-    private String url;
+    public String url;
+    private Boolean draft;
+    private String layout;
     private String shortName = "";
     private Date published;
     private Date validUntil;
@@ -58,6 +60,14 @@ public class Post {
         return url;
     }
 
+    public Boolean getDraft() {
+        return draft;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
     public Map< String, Object> getFrontMatter() {
         return frontMatter;
     }
@@ -71,7 +81,11 @@ public class Post {
     }
 
     public String getLayout() {
-        return (String)frontMatter.get(Constants.LAYOUT_ID);
+        return layout;
+    }
+
+    public void setLayout(String layout) {
+        this.layout = layout;
     }
 
     public Map<String, Object> getContext() {
@@ -120,11 +134,17 @@ public class Post {
             //TODO: slugify!
             String filename2 = FilenameUtils.getName(filename);
             slug = FilenameUtils.removeExtension(filename2);
+            slug = Utilities.slugify(slug);
         }
-        context.put("slug", slug);
+        //context.put("slug", slug);
         context.put("shortName", (String)frontMatter.get(Constants.SHORT_NAME_ID));
         published = (Date)frontMatter.get(Constants.PUBLISHED_ID);
         validUntil = (Date)frontMatter.get(Constants.VALID_UNTIL_ID);
+        draft = (Boolean)frontMatter.get(Constants.DRAFT_ID);
+        layout = (String)frontMatter.get(Constants.LAYOUT_ID);
+        if (draft == null) {
+            draft = false;
+        }
     }
 
     private void parseMarkdown(BufferedReader br) throws IOException {

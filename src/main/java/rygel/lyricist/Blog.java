@@ -30,7 +30,9 @@ public class Blog {
     private String postsDirectory;
     private String authorsDirectory;
     private String name;
+    private Layouts layouts;
     private Map<String, Post> posts = new HashMap<>();
+    private Map<String, Post> drafts = new HashMap<>();
     private SortedMap<Date, Post> postsOrderedByDate = new TreeMap<>();
     private Map<String, Object> context = new HashMap<>();
     private Map<String, Post> authors = new HashMap<>();
@@ -107,6 +109,14 @@ public class Blog {
         return context;
     }
 
+    public Layouts getLayouts() {
+        return layouts;
+    }
+
+    public void setLayouts(Layouts layouts) {
+        this.layouts = layouts;
+    }
+
     private void readPostsDirectory() {
         posts.clear();
         posts.putAll(readDirectory(postsDirectory));
@@ -133,7 +143,11 @@ public class Blog {
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(directory))) {
             for (Path path : directoryStream) {
                 Post post = new Post(path.toString(), authors);
-                result.put(post.getSlug(), post);
+                if (post.getDraft()) {
+                    result.put(post.getSlug(), post);
+                } else {
+                    drafts.put(post.getSlug(), post);
+                }
                 addPostToCategories(post);
                 addPostToTags(post);
             }
