@@ -22,6 +22,10 @@ public final class Lyricist {
 
     private Map<String, Blog> blogs = new HashMap<>();
 
+    /**
+     * Creates the Lyricist instance. Only one instance is needed in a Pippo application.
+     * @param application The Pippo Application instance. Usually always this.
+     */
     public Lyricist(Application application) {
         this.application = application;
 
