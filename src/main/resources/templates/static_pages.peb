@@ -4,7 +4,7 @@
 {% block heading %} {{post.title}} {% endblock %}
 
 {% block content %}
-<h6>Published: {{post.published}}</h6>
+<h6>Last modified: {{post.published}}</h6>
     {{content|raw}}
     {% if authors is not empty %}
         <p>Authors:
@@ -12,12 +12,12 @@
                 <a href="{{ author.url }}">{{ author.frontMatter.firstName }} {{ author.frontMatter.lastName }}</a>
             {% else %}
                 <p> There are no authors. </p>
-            {% endfor %}
+        {% endfor %}
         </p>
     {% endif %}
 {% endblock %}
 
-{% block sidebar_heading %} All Blog Postings {% endblock %}
+{% block sidebar_heading %} All Static Pages {% endblock %}
 
 {% block sidebar_list %}
 {% for post in blog %}

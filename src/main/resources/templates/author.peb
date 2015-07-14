@@ -2,10 +2,18 @@
 
 
 {% block title %} {{post.firstName}} {{post.lastName}} - {{pageTitle}} {% endblock %}
-
+{% block heading %} {{post.firstName}} {{post.lastName}} {% endblock %}
 
 {% block content %}
-    <h1>{{post.firstName}} {{post.lastName}}</h1>
     {{content|raw}}
 {% endblock %}
 
+{% block sidebar_heading %} All Blog Authors {% endblock %}
+
+{% block sidebar_list %}
+    {% for author in authors %}
+        <li><a href="{{ author.url }}">{{ author.frontMatter.firstName }} {{ author.frontMatter.lastName }}</a></li>
+    {% else %}
+        <p> There are no authors. </p>
+    {% endfor %}
+{% endblock %}

@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{post.title}} - {{pageTitle}}</title>
-</head>
-<body>
-<h1>{{post.title}}</h1>
-<h6>Published: {{post.published}}</h6>
+{% extends "parent" %}
+
+{% block title %} {{post.title}} - {{pageTitle}} {% endblock %}
+{% block heading %} {{post.title}} {% endblock %}
+
+{% block content %}
+{{content|raw}}
+{% endblock %}
+
+{% block sidebar_heading %} All Blog Postings {% endblock %}
+
+{% block sidebar_list %}
 {% for post in blog %}
-<a href="{{ post.url }}"> {{ post.title }} </a>
-{{ post.post.title }}
+<li><a href="{{ post.url }}">{{ post.title}} </a></li>
 {% else %}
 <p> There are no posts. </p>
 {% endfor %}
-</body>
-</html>
+{% endblock %}

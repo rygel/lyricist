@@ -61,9 +61,7 @@
           <p class="lead">A Blog Engine for the Pippo Web Framework</p></h1>
       </div>
       <div class="col col-sm-6">
-        <div class="well pull-right">
-          <img src="//placehold.it/280x100/E7E7E7">
-        </div>
+
       </div>
     </div>
   </div>
@@ -74,7 +72,7 @@
 
         <div class="panel">
         <div class="panel-body">
-          You may want to put some news here  <span class="glyphicon glyphicon-heart-empty"></span>
+          You can find <a href="{{githubUrl}}">Lyricist on Github</a> <span class="glyphicon glyphicon-heart-empty"></span>
         </div>
         </div>
 
@@ -89,52 +87,26 @@
   			<div class="col col-sm-3">
               	<div id="sidebar">
       			<ul class="nav nav-stacked">
-                    <li><h3 class="highlight">Channels <i class="glyphicon glyphicon-dashboard pull-right"></i></h3></li>
-                  	<li><a href="#">Link</a></li>
-          			<li><a href="#">Link</a></li>
+                    <li><h3 class="highlight">{% block sidebar_heading %} {% endblock %} <i class="glyphicon glyphicon-dashboard pull-right"></i></h3></li>
+                    {% block sidebar_list %} {% endblock %}
 				</ul>
-                <div class="accordion" id="accordion2">
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                                Accordion
-                            </a>
-                        </div>
-                        <div id="collapseOne" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-                              <p>There is a lot to be said about RWD.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                                    Accordion
-                                </a>
-                            </div>
-                            <div id="collapseTwo" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                  <p>Use @media queries or utility classes to customize responsiveness.</p>
-                                </div>
-                            </div>
-                        </div>
-               	</div>
                </div>
       		</div>
       		<div class="col col-sm-9">
               <div class="panel">
-              <h1>The Top Stories from Around</h1>
-
-              <div class="row">
-
+                <div class="row">
+                  <h1>{% block heading %} {% endblock %}</h1>
                   {% block content %} {% endblock %}
-
-
-              </div>
+                </div>
               </div>
                 <div class="panel">
+                    <div class="row" style="alignment: right">
+                        <a href="/disclaimer">Disclaimer</a>
+                    </div>
+                </div>
+                <div class="panel">
                     <div class="row">
-                        Powered by the free <a href="http://www.bootstrapzero.com/bootstrap-template/flathood">Flathood Bootstrap Template</a>.
+                        <h5>Powered by the free <a href="http://www.bootstrapzero.com/bootstrap-template/flathood">Flathood Bootstrap Template</a>.</h5>
                     </div>
                 </div>
       	</div>

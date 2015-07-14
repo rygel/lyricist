@@ -56,9 +56,10 @@ public class PippoApplication extends Application {
 
         Map<String, Object> blogContext = new TreeMap<>();
         blogContext.put("pageTitle", "Lyricist Blog Engine");
+        blogContext.put("githubUrl", "https://github.com/rygel/lyricist");
         Layouts layouts = new Layouts("blog", null, null, null, null, null);
         Lyricist lyricist = new Lyricist(this);
-        lyricist.registerBlog("rootBlog", "/", layouts);
+        lyricist.registerBlog("rootBlog", "/", layouts, blogContext);
         lyricist.registerBlog("blog", "/blog/", layouts, blogContext);
     }
 
