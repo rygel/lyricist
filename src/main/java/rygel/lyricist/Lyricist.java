@@ -81,6 +81,7 @@ public final class Lyricist {
                     context.putAll(post.getContext());
                     context.put("content", post.getContent());
                     context.put("post", post.getFrontMatter());
+                    context.put("blog", blog.globalContext);
 
                     routeContext.render(post.getLayout(), context);
                 }
@@ -135,7 +136,6 @@ public final class Lyricist {
         for (final Map.Entry<String, Post> entry : authors.entrySet()) {
             String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
             Post post = entry.getValue();
-            String temp = (String)post.getFrontMatter().get(Constants.SHORT_NAME_ID);
             post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getFrontMatter().get(Constants.SHORT_NAME_ID));
             application.GET(route, new RouteHandler() {
                 @Override
@@ -145,7 +145,8 @@ public final class Lyricist {
                     context.putAll(author.getContext());
                     context.put("content", author.getContent());
                     context.put("post", author.getFrontMatter());
-                    context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
+                    context.put("authors", blog.getAuthorsList());
+                    //context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
                     routeContext.render(author.getLayout(), context);
                 }
             });

@@ -90,6 +90,10 @@ public class Blog {
         return authors;
     }
 
+    public List<Post> getAuthorsList() {
+        return new ArrayList<Post>(authors.values());
+    }
+
     public Map<String, List<Post>> getCategories() {
         return postsByCategory;
     }
