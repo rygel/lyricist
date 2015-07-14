@@ -3,15 +3,9 @@
 
 {% block title %} {{post.firstName}} {{post.lastName}} - {{pageTitle}} {% endblock %}
 
-{{content|raw}}
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<h1>{{post.title}}</h1>
-<h6>Published: {{post.published}}</h6>
 
-</body>
-</html>
+{% block content %}
+    <h1>{{post.firstName}} {{post.lastName}}</h1>
+    {{content|raw}}
+{% endblock %}
+
