@@ -1,4 +1,4 @@
-package rygel.lyricist;
+package com.github.rygel.lyricist;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 
 /**
@@ -39,6 +41,8 @@ public class Blog {
     private Map<String, List<Post>> postsByCategory = new TreeMap<>();
     private Map<String, List<Post>> postsByTag = new TreeMap<>();
     public List<Object> globalContext = new ArrayList<>();
+    public Set<String> categories = new TreeSet<>();
+    public String url;
 
     private String checkIfDirectoryExists(String newDirectory) {
         File file = new File(newDirectory);
@@ -74,6 +78,10 @@ public class Blog {
         readAuthorsDirectory();
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Map<String, Post> getPosts() {
         return posts;
     }
@@ -100,6 +108,18 @@ public class Blog {
 
     public Map<String, List<Post>> getTags() {
         return postsByTag;
+    }
+
+    public void addCategory(Object categories) {
+        if (categories != null) {
+            if (categories.getClass() == String.class) {
+                this.categories.add((String)categories);
+            } else if (categories.getClass() == ArrayList.class) {
+                this.categories.addAll((ArrayList)categories);
+            } else {
+                LOGGER.info("fewaf " + categories.getClass());
+            }
+        }
     }
 
     public void putAllContext(Map<String, Object> context) {
@@ -163,7 +183,7 @@ public class Blog {
     }
 
     private void addPostToCategories(Post post) {
-        List<String> categories = (List<String>)post.getFrontMatter().get(Constants.CATEGORY_ID);
+        List<String> categories = (List<String>)post.getFrontMatter().get(Constants.CATEGORIES_ID);
         if (categories != null) {
             for (String category: categories) {
                 List<Post> currentCategory = postsByCategory.get(category);

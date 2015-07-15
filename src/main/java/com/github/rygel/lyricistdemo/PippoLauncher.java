@@ -1,4 +1,4 @@
-package rygel;
+package com.github.rygel.lyricistdemo;
 
 import ro.pippo.core.Pippo;
 

@@ -4,7 +4,7 @@
 {% block heading %} {{post.title}} {% endblock %}
 
 {% block content %}
-{{content|raw}}
+
 {% endblock %}
 
 {% block sidebar_heading %} All Blog Postings {% endblock %}

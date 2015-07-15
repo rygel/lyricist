@@ -10,7 +10,7 @@
         <filter-class>ro.pippo.core.PippoFilter</filter-class>
         <init-param>
             <param-name>applicationClassName</param-name>
-            <param-value>rygel.PippoApplication</param-value>
+            <param-value>com.github.rygel.lyricistdemo.PippoApplication</param-value>
         </init-param>
         <!--
         <init-param>

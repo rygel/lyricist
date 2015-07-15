@@ -1,0 +1,22 @@
+{% extends "parent" %}
+
+{% block title %} Authors - {{pageTitle}} {% endblock %}
+{% block heading %} All Blog Authors {% endblock %}
+
+{% block content %}
+    {% for author in authors %}
+        <a href="{{ author.url }}">{{ author.frontMatter.firstName }} {{ author.frontMatter.lastName }}</a><br/>
+    {% else %}
+        <p> There are no authors. </p>
+    {% endfor %}
+{% endblock %}
+
+{% block sidebar_heading %} All Blog Authors {% endblock %}
+
+{% block sidebar_list %}
+    {% for author in authors %}
+        <li><a href="{{ author.url }}">{{ author.frontMatter.firstName }} {{ author.frontMatter.lastName }}</a></li>
+    {% else %}
+        <p> There are no authors. </p>
+    {% endfor %}
+{% endblock %}

@@ -1,4 +1,4 @@
-package rygel.lyricist;
+package com.github.rygel.lyricist;
 
 /**
  * Created by Alexander Brandt on 13.07.2015.

@@ -144,7 +144,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>rygel.PippoLauncher</mainClass>
+                    <mainClass>com.github.rygel.lyricistdemo.PippoLauncher</mainClass>
                 </configuration>
             </plugin>
         </plugins>

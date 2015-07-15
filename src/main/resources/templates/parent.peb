@@ -22,7 +22,9 @@
         <ul class="nav navbar-nav">
           <li><a href="/">Home</a></li>
           <li><a href="/blog">Blog</a></li>
-          <li><a href="/authors">Authors</a></li>
+          <li><a href="/blog/categories">Categories</a></li>
+          <li><a href="/blog/tags">Tags</a></li>
+          <li><a href="/blog/authors">Authors</a></li>
           <li><a href="/about">About</a></li>
         </ul>
         <ul class="nav navbar-right navbar-nav">
@@ -57,7 +59,7 @@
   <div class="container">
     <div class="row">
       <div class="col col-sm-6">
-        <h1><a href="#" title="scroll down for your viewing pleasure">{{pageTitle}}</a>
+        <h1><a href="{{githubUrl}}" title="scroll down for your viewing pleasure">{{pageTitle}}</a>
           <p class="lead">A Blog Engine for the <a href="https://github.com/decebals/pippo">Pippo Web Framework</a></p></h1>
       </div>
       <div class="col col-sm-6">
@@ -72,7 +74,7 @@
 
         <div class="panel">
         <div class="panel-body">
-          You can find <a href="{{githubUrl}}">Lyricist on Github</a> <span class="glyphicon glyphicon-heart-empty"></span>
+          You can find <a href="{{githubUrl}}">Lyricist on Github</a> <span class="glyphicons glyphicons-star"></span>
         </div>
         </div>
 

@@ -1,13 +1,11 @@
-package rygel.lyricist;
+package com.github.rygel.lyricist;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.PippoSettings;
-import ro.pippo.core.route.Route;
 import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
-import ro.pippo.core.route.Router;
 import ro.pippo.core.util.ClasspathUtils;
 
 import java.net.URL;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by Alexander Brandt on 08.06.2015.
@@ -66,11 +63,13 @@ public final class Lyricist {
         final Blog blog = blogs.get(name);
         blog.setLayouts(layouts);
         blog.putAllContext(context);
+        blog.url = pattern;
         preparePostings(blog, pattern);
         final Map<String, Post> posts = blog.getPosts();
         for (final Map.Entry<String, Post> entry : posts.entrySet()) {
             String route = pattern + entry.getKey();
             final Post post = entry.getValue();
+            blog.addCategory(post.getFrontMatter().get(Constants.CATEGORIES_ID));
             //Route checking here?
             //Router router = application.getRouter();
             //List<Route> routes = router.getRoutes();
@@ -82,14 +81,17 @@ public final class Lyricist {
                     context.put("content", post.getContent());
                     context.put("post", post.getFrontMatter());
                     context.put("blog", blog.globalContext);
+                    context.put("blogUrl", blog.url);
 
                     routeContext.render(post.getLayout(), context);
                 }
             });
         }
 
-        registerBlogAuthors(blog, pattern);
         registerBlogPage(blog, pattern);
+        registerBlogAuthors(blog, pattern);
+        registerAuthorsPage(blog, pattern);
+        registerCategories(blog, pattern);
     }
 
     public Blog getBlog(String name) {
@@ -130,6 +132,20 @@ public final class Lyricist {
         blog.globalContext = globalContext;
     }
 
+    private void registerBlogPage(final Blog blog, final String pattern) {
+        String route = Utilities.removeTrailingSlash(pattern);
+        application.GET(route, new RouteHandler() {
+            @Override
+            public void handle(RouteContext routeContext) {
+                final Map<String, Object> context = blog.getContext();
+                context.put("url", pattern);
+                context.put("blog", blog.globalContext);
+                context.put("posts", blog.getPosts());
+                routeContext.render(blog.getLayouts().getBlog(), context);
+            }
+        });
+    }
+
     private void registerBlogAuthors(final Blog blog, final String pattern) {
         final Map<String, Post> authors = blog.getAuthors();
 
@@ -153,18 +169,22 @@ public final class Lyricist {
         }
     }
 
-    private void registerBlogPage(final Blog blog, final String pattern) {
-        String route = Utilities.removeTrailingSlash(pattern);
-        application.GET(route, new RouteHandler() {
-            @Override
-            public void handle(RouteContext routeContext) {
-                final Map<String, Object> context = blog.getContext();
-                context.put("url", pattern);
-                context.put("blog", blog.globalContext);
-                context.put("posts", blog.getPosts());
-                routeContext.render(blog.getLayouts().getBlog(), context);
-            }
-        });
+    private void registerAuthorsPage(final Blog blog, final String pattern) {
+        if (blog.getAuthorsList().size() != 0) {
+            String route = Utilities.removeTrailingSlash(pattern + Constants.AUTHORS_ROUTE);
+            application.GET(route, new RouteHandler() {
+                @Override
+                public void handle(RouteContext routeContext) {
+                    final Map<String, Object> context = blog.getContext();
+                    context.put("url", pattern);
+                    context.put("blog", blog.globalContext);
+                    context.put("authors", blog.getAuthorsList());
+                    routeContext.render(blog.getLayouts().getAuthors(), context);
+                }
+            });
+        } else {
+            LOGGER.info("No author page for blog \"" + blog.getName() + "\" created." );
+        }
     }
 
     private void registerCategories(final Blog blog, final String pattern) {

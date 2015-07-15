@@ -1,12 +1,12 @@
-package rygel;
+package com.github.rygel.lyricistdemo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
-import rygel.lyricist.Layouts;
-import rygel.lyricist.Lyricist;
+import com.github.rygel.lyricist.Layouts;
+import com.github.rygel.lyricist.Lyricist;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,7 +14,7 @@ import java.util.TreeMap;
 /**
  * A simple Pippo application.
  *
- * @see rygel.PippoLauncher#main(String[])
+ * @see PippoLauncher#main(String[])
  */
 public class PippoApplication extends Application {
 
@@ -57,7 +57,7 @@ public class PippoApplication extends Application {
         Map<String, Object> blogContext = new TreeMap<>();
         blogContext.put("pageTitle", "Lyricist Blog Engine");
         blogContext.put("githubUrl", "https://github.com/rygel/lyricist");
-        Layouts layouts = new Layouts("blog", null, null, null, null, null);
+        Layouts layouts = new Layouts("blog", "post", "authors", null, null, null);
         Lyricist lyricist = new Lyricist(this);
         lyricist.registerBlog("rootBlog", "/", layouts, blogContext);
         lyricist.registerBlog("blog", "/blog/", layouts, blogContext);
