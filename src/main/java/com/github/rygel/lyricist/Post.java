@@ -35,14 +35,13 @@ public class Post {
     private Date published;
     private Date validUntil;
 
-    public Post(String newFilename, Map<String, Post> authors) {
+    public Post(String newFilename, Map<String, Post> authors) throws Exception {
         filename = newFilename;
         this.authors = authors;
-        try {
             parse();
-        } catch (IOException ex) {
+         /*catch (IOException ex) {
             LOGGER.error("Error reading file (" + filename + "): ", ex.getCause());
-        }
+        }*/
     }
 
     public String getContent() {
@@ -102,14 +101,14 @@ public class Post {
         return context;
     }
 
-    private final void parse() throws IOException {
+    private final void parse() throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         // detect YAML front matter
         String line = br.readLine();
         if (line == null) {
             LOGGER.warn("File \"" + filename + "\" is empty.");
-            return;
+            throw new Exception("File is empty: " + filename);
         }
         while (line.isEmpty()) {
             line = br.readLine();

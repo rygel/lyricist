@@ -14,10 +14,17 @@ public class PostTest extends Assert {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testEmptyPost() throws Exception {
-        Post post = new Post("empty_post.md", null);
+    public void testPostFileNotFound() throws Exception {
         thrown.expect(Exception.class);
-        thrown.expectMessage("The uri pattern cannot be null or empty");
+        thrown.expectMessage("File is empty: ");
+        Post post = new Post("file_not_found.md", null);
+    }
+
+    @Test
+    public void testEmptyPost() throws Exception {
+        thrown.expect(Exception.class);
+        thrown.expectMessage("File is empty: ");
+        Post post = new Post("empty_post.md", null);
     }
 
 }

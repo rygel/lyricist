@@ -152,8 +152,12 @@ public class Blog {
             authors.clear();
             try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(authorsDirectory))) {
                 for (Path path : directoryStream) {
-                    Post post = new Post(path.toString(), authors);
-                    authors.put(post.getShortName(), post);
+                    try {
+                        Post post = new Post(path.toString(), authors);
+                        authors.put(post.getShortName(), post);
+                    } catch (Exception e) {
+                    LOGGER.error(e.toString());
+                    }
                 }
             } catch (IOException ex) {
                 LOGGER.error("[Blog: " + name + "] Error reading authors directory (" + directory + "): ", ex.getCause());
@@ -167,14 +171,18 @@ public class Blog {
         Map<String, Post> result = new TreeMap<>();
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(directory))) {
             for (Path path : directoryStream) {
-                Post post = new Post(path.toString(), authors);
-                if (post.getDraft()) {
-                    drafts.put(post.getSlug(), post);
-                } else {
-                    result.put(post.getSlug(), post);
+                try {
+                    Post post = new Post(path.toString(), authors);
+                    if (post.getDraft()) {
+                        drafts.put(post.getSlug(), post);
+                    } else {
+                        result.put(post.getSlug(), post);
+                    }
+                    addPostToCategories(post);
+                    addPostToTags(post);
+                } catch (Exception e) {
+                    LOGGER.error(e.toString());
                 }
-                addPostToCategories(post);
-                addPostToTags(post);
             }
         } catch (IOException ex) {
             LOGGER.error("[Blog: " + name + "] Error reading post directory (" + directory + "): ", ex.getCause());
