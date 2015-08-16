@@ -4,12 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>rygel</groupId>
-    <artifactId>lyricist</artifactId>
+    <groupId>com.github.rygel</groupId>
+    <artifactId>lyricist-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-        <packaging>${packaging.type}</packaging>
-    <name>quickstart</name>
-    <description>A Pippo appplication</description>
+    <packaging>pom</packaging>
+    <name>lyricist-parent</name>
+    <description>A Pippo application</description>
+
+    <modules>
+        <module>lyricist</module>
+        <module>lyricist-demo</module>
+    </modules>
 
     <licenses>
         <license>
@@ -37,58 +42,6 @@
         <pippo.version>0.6.1</pippo.version>
         <slf4j.version>1.7.12</slf4j.version>
     </properties>
-
-    <dependencies>
-        <!-- Pippo -->
-        <dependency>
-            <groupId>ro.pippo</groupId>
-            <artifactId>pippo-core</artifactId>
-            <version>${pippo.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ro.pippo</groupId>
-            <artifactId>pippo-pebble</artifactId>
-            <version>${pippo.version}</version>
-        </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.7</version>
-        </dependency>
-
-        <!-- Markdown -->
-        <dependency>
-            <groupId>org.pegdown</groupId>
-            <artifactId>pegdown</artifactId>
-            <version>1.5.0</version>
-        </dependency>
-        <!-- Yaml -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.15</version>
-        </dependency>
-        <!-- Apache Commons -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-        <!-- JUnit4 -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>1.3</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <resources>
@@ -142,6 +95,53 @@
                 </configuration>
                 <inherited>true</inherited>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes/lib</outputDirectory>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <excludeGroupIds>
+                                junit,org.hamcrest,org.mockito,org.powermock,${project.groupId}
+                            </excludeGroupIds>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <verbose>true</verbose>
+                    <detail>true</detail>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>PippoLauncher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -155,11 +155,27 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.github.rygel.lyricistdemo.PippoLauncher</mainClass>
+                    <mainClass>PippoLauncher</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
         <profiles>
         <profile>

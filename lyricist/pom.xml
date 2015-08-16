@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lyricist-parent</artifactId>
+        <groupId>com.github.rygel</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lyricist</artifactId>
+    <groupId>com.github.rygel</groupId>
+    <version>0.0.1</version>
+
+
+    <dependencies>
+        <!-- Pippo -->
+        <dependency>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-core</artifactId>
+            <version>${pippo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-pebble</artifactId>
+            <version>${pippo.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- Markdown -->
+        <dependency>
+            <groupId>org.pegdown</groupId>
+            <artifactId>pegdown</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+        <!-- Yaml -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.15</version>
+        </dependency>
+        <!-- Apache Commons -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <!-- JUnit4 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
