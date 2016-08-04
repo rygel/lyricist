@@ -1,5 +1,8 @@
 package com.github.rygel.lyricist;
 
+import com.github.rygel.lyricist.posttypes.Author;
+import com.github.rygel.lyricist.posttypes.Post;
+import com.github.rygel.lyricist.posttypes.StaticPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +26,8 @@ import java.util.TreeSet;
 
 
 /**
+ * The main blog class.
+ *
  * Created by Alexander Brandt on 07.07.2015.
  */
 public class Blog {
@@ -31,13 +36,15 @@ public class Blog {
     private String directory;
     private String postsDirectory;
     private String authorsDirectory;
+    private String staticPagesDirectory;
     private String name;
     private Layouts layouts;
     private Map<String, Post> posts = new HashMap<>();
     private Map<String, Post> drafts = new HashMap<>();
+    private Map<String, StaticPage> static_pages = new HashMap<>();
     private SortedMap<Date, Post> postsOrderedByDate = new TreeMap<>();
     private Map<String, Object> context = new HashMap<>();
-    private Map<String, Post> authors = new HashMap<>();
+    private Map<String, Author> authors = new HashMap<>();
     private Map<String, List<Post>> postsByCategory = new TreeMap<>();
     private Map<String, List<Post>> postsByTag = new TreeMap<>();
     public List<Object> globalContext = new ArrayList<>();
@@ -72,10 +79,14 @@ public class Blog {
         String postsDirectory = mainDirectory + Constants.POSTS_DIR;
         this.postsDirectory = checkIfDirectoryExists(postsDirectory);
 
+        String staticPagesDirectory = mainDirectory + Constants.STATIC_PAGES_DIR;
+        this.staticPagesDirectory = checkIfDirectoryExists(staticPagesDirectory);
+
         this.directory = mainDirectory;
         this.name = newName;
         readAuthorsDirectory();
         readPostsDirectory();
+        readStaticPagesDirectory();
     }
 
     public void reload() {
@@ -99,12 +110,12 @@ public class Blog {
         return postsOrderedByDate;
     }
 
-    public Map<String, Post> getAuthors() {
+    public Map<String, Author> getAuthors() {
         return authors;
     }
 
-    public List<Post> getAuthorsList() {
-        return new ArrayList<Post>(authors.values());
+    public List<Author> getAuthorsList() {
+        return new ArrayList<Author>(authors.values());
     }
 
     public Map<String, List<Post>> getCategories() {
@@ -158,8 +169,8 @@ public class Blog {
             try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(authorsDirectory))) {
                 for (Path path : directoryStream) {
                     try {
-                        Post post = new Post(path.toString(), authors);
-                        authors.put(post.getShortName(), post);
+                        Author author = new Author(path.toString());
+                        authors.put(author.getShortName(), author);
                     } catch (Exception e) {
                     LOGGER.error(e.toString());
                     }
@@ -193,6 +204,26 @@ public class Blog {
             LOGGER.error("[Blog: " + name + "] Error reading post directory (" + directory + "): ", ex.getCause());
         }
         return result;
+    }
+
+    private void readStaticPagesDirectory() {
+        if (!staticPagesDirectory.equals("")) {
+            static_pages.clear();
+            try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(staticPagesDirectory))) {
+                for (Path path : directoryStream) {
+                    try {
+                        Post post = new Post(path.toString(), authors);
+                        //static_pages.put(post.getShortName(), post);
+                    } catch (Exception e) {
+                        LOGGER.error(e.toString());
+                    }
+                }
+            } catch (IOException ex) {
+                LOGGER.error("[Blog: " + name + "] Error reading authors directory (" + directory + "): ", ex.getCause());
+            }
+        } else {
+            LOGGER.info("There are no authors for blog \"" + name + "\".");
+        }
     }
 
     private void addPostToCategories(Post post) {

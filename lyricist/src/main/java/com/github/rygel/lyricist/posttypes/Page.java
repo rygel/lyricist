@@ -1,5 +1,7 @@
-package com.github.rygel.lyricist;
+package com.github.rygel.lyricist.posttypes;
 
+import com.github.rygel.lyricist.Constants;
+import com.github.rygel.lyricist.Utilities;
 import org.apache.commons.io.FilenameUtils;
 import org.pegdown.PegDownProcessor;
 import org.slf4j.Logger;
@@ -9,45 +11,67 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *
- * @author Alexander Brandt
+ * Created by Alexander Brandt on 11.07.2015.
  */
-public class Post {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Post.class);
+public abstract class Page {
+    private final static Logger LOGGER = LoggerFactory.getLogger(Page.class);
 
-    private Map<String,Object> frontMatter = new HashMap<>();
-    private Map<String,Object> context = new HashMap<>();
-    private Map<String,Post> authors = new HashMap<>();
-    private String content = "";
-    private String filename;
-    private String slug;
+    protected Map<String,Object> frontMatter = new HashMap<>();
+    protected Map<String,Object> context = new HashMap<>();
+    protected String content = "";
+    protected String filename;
+    protected String slug;
     public String url;
-    private Boolean draft;
-    private String layout;
-    private String shortName = "";
-    private Date published;
-    private Date validUntil;
+    protected String layout;
 
-    public Post(String newFilename, Map<String, Post> authors) throws Exception {
+    public Page() {
+
+    }
+
+    public Page(String newFilename) {
         filename = newFilename;
-        this.authors = authors;
-        parse();
+        try {
+            readFile();
+        } catch (Exception ex) {
+            LOGGER.error("Error reading file (" + filename + "): ", ex.getCause());
+        }
+    }
+
+    public void addContext(String key, Object value) {
+        context.put(key, value);
     }
 
     public String getContent() {
         return content;
     }
 
-    public void addContext(String key, Object value) {
-        context.put(key, value);
+    public Map< String, Object> getFrontMatter() {
+        return frontMatter;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setLayout(String layout) {
+        this.layout = layout;
+    }
+
+    public String getLayout() {
+        return this.layout;
+    }
+
+    public Map<String, Object> getContext() {
+        return context;
     }
 
     public void setUrl(String newUrl) {
@@ -59,38 +83,6 @@ public class Post {
         return url;
     }
 
-    public Boolean getDraft() {
-        return draft;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public Map< String, Object> getFrontMatter() {
-        return frontMatter;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public String getShortName() {
-        return (String)context.get("shortName");
-    }
-
-    public String getLayout() {
-        return layout;
-    }
-
-    public void setLayout(String layout) {
-        this.layout = layout;
-    }
-
-    public Map<String, Object> getContext() {
-        return context;
-    }
-
     public Map<String, Object> getDefaultContext() {
         final Map<String, Object> context = new TreeMap<>();
         context.put("content", getContent());
@@ -99,7 +91,7 @@ public class Post {
         return context;
     }
 
-    private final void parse() throws Exception {
+    protected final void readFile() throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         // detect YAML front matter
@@ -125,19 +117,26 @@ public class Post {
             line = br.readLine();
         }
 
-        // parse data
+        // readFile data
         parseYamlFrontMatter(sb.toString());
+        interpretYamlFrontMatterGeneral();
+        interpretYamlFrontMatterSpecial();
         parseMarkdown(br);
-        addAuthors();
     }
 
     /**
      * Parses the YAML front-matter.
      * @param yamlString A string containing the complete YAML front-matter
      */
-    private void parseYamlFrontMatter(String yamlString) {
+    protected void parseYamlFrontMatter(String yamlString) {
         Yaml yaml = new Yaml();
         frontMatter = (Map< String, Object>) yaml.load(yamlString);
+    }
+
+    /**
+     * General front matter entries, which should always be available.
+     */
+    private void interpretYamlFrontMatterGeneral() {
         String fmSlug = (String)frontMatter.get(Constants.SLUG_ID);
         if (fmSlug != null) {
             slug = fmSlug;
@@ -147,31 +146,18 @@ public class Post {
             slug = Utilities.slugify(slug);
             frontMatter.put("slug", slug);
         }
-        //context.put("slug", slug);
-        context.put("shortName", (String)frontMatter.get(Constants.SHORT_NAME_ID));
-        published = (Date)frontMatter.get(Constants.PUBLISHED_ID);
-        validUntil = (Date)frontMatter.get(Constants.VALID_UNTIL_ID);
-        draft = (Boolean)frontMatter.get(Constants.DRAFT_ID);
         layout = (String)frontMatter.get(Constants.LAYOUT_ID);
-        if (draft == null) {
-            draft = false;
-        }
     }
 
-    private void parseMarkdown(BufferedReader br) throws IOException {
+    /**
+     *  Special front matter entries. Needs to be taken care of in child class.
+     */
+    protected abstract void interpretYamlFrontMatterSpecial();
+
+    protected void parseMarkdown(BufferedReader br) throws IOException {
         String markdown = org.apache.commons.io.IOUtils.toString(br);
         PegDownProcessor processor = new PegDownProcessor();
         content = processor.markdownToHtml(markdown);
     }
-    private void addAuthors() {
-        List<String> shortAuthors = (List<String>)frontMatter.get("authors");
-        if ((authors != null) && (shortAuthors != null)) {
-            List<Post> authorList = new ArrayList<>();
-            for (String shortAuthor: shortAuthors) {
-                Post author = authors.get(shortAuthor);
-                authorList.add(author);
-            }
-            context.put("authors", authorList);
-        }
-    }
+
 }

@@ -79,6 +79,12 @@ h3.highlight  {
     color: #ffffff;
 	background-color:transparent;
 }
+
+.active {
+	color: #828282;
+	background-color:transparent;
+}
+
 .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {
 	color: #f0f0f0;
 	background-color:transparent;

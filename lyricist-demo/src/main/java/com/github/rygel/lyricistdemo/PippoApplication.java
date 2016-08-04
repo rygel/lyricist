@@ -59,7 +59,7 @@ public class PippoApplication extends Application {
         blogContext.put("githubUrl", "https://github.com/rygel/lyricist");
         Layouts layouts = new Layouts("blog", "post", "authors", null, null, null);
         Lyricist lyricist = new Lyricist(this);
-        lyricist.registerBlog("rootBlog", "/", layouts, blogContext);
+        lyricist.registerBlog("root", "/", layouts, blogContext);
         lyricist.registerBlog("blog", "/blog/", layouts, blogContext);
     }
 

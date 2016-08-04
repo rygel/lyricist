@@ -1,5 +1,7 @@
 package com.github.rygel.lyricist;
 
+import com.github.rygel.lyricist.posttypes.Author;
+import com.github.rygel.lyricist.posttypes.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
@@ -153,17 +155,17 @@ public final class Lyricist {
     }
 
     private void registerBlogAuthors(final Blog blog, final String pattern) {
-        final Map<String, Post> authors = blog.getAuthors();
+        final Map<String, Author> authors = blog.getAuthors();
 
-        for (final Map.Entry<String, Post> entry : authors.entrySet()) {
+        for (final Map.Entry<String, Author> entry : authors.entrySet()) {
             String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
-            Post post = entry.getValue();
-            post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getFrontMatter().get(Constants.SHORT_NAME_ID));
+            Author author = entry.getValue();
+            author.setUrl(pattern + Constants.AUTHORS_ROUTE + author.getFrontMatter().get(Constants.SHORT_NAME_ID));
             application.GET(route, new RouteHandler() {
                 @Override
                 public void handle(RouteContext routeContext) {
                     final Map<String, Object> context = blog.getContext();
-                    final Post author = authors.get(entry.getKey());
+                    final Author author = authors.get(entry.getKey());
                     context.putAll(author.getContext());
                     context.put("content", author.getContent());
                     context.put("post", author.getFrontMatter());

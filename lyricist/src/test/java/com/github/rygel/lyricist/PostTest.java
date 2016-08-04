@@ -1,5 +1,6 @@
 package com.github.rygel.lyricist;
 
+import com.github.rygel.lyricist.posttypes.Post;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
