@@ -102,6 +102,7 @@ public final class Lyricist {
         registerBlogAuthors(blog, pattern);
         registerAuthorsPage(blog, pattern);
         registerCategories(blog, pattern);
+        registerStaticPages(blog, pattern);
     }
 
     public Blog getBlog(String name) {
@@ -197,7 +198,7 @@ public final class Lyricist {
         final Map<String, StaticPage> staticPages = blog.getStaticPages();
 
         for (final Map.Entry<String, StaticPage> entry : staticPages.entrySet()) {
-            String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
+            String route = pattern + entry.getKey();
             StaticPage staticPage = entry.getValue();
             staticPage.setUrl(pattern + Constants.AUTHORS_ROUTE + staticPage.getFrontMatter().get(Constants.SHORT_NAME_ID));
             application.GET(route, new RouteHandler() {

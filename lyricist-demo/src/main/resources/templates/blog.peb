@@ -2,7 +2,7 @@
 
 {% block blog_active %} active {% endblock %}
 
-{% block title %} {{post.title}} - {{pageTitle}} {% endblock %}
+{% block title %} Blog posts - {{pageTitle}} {% endblock %}
 {% block heading %} {{post.title}} {% endblock %}
 
 {% block content %}

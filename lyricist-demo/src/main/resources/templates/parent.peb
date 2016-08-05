@@ -25,7 +25,7 @@
           <li><a href="/blog/categories" class="{% block categories_active %}{% endblock %}">Categories</a></li>
           <li><a href="/blog/tags" class="{% block tags_active %}{% endblock %}">Tags</a></li>
           <li><a href="/blog/authors" class="{% block authors_active %}{% endblock %}">Authors</a></li>
-          <li><a href="/about" class="{% block about_active %}{% endblock %}">About</a></li>
+          <li><a href="/blog/about" class="{% block about_active %}{% endblock %}">About</a></li>
         </ul>
         <ul class="nav navbar-right navbar-nav">
           <li class="dropdown">
@@ -103,7 +103,7 @@
               </div>
                 <div class="panel">
                     <div class="row" style="alignment: right">
-                        <a href="/disclaimer">Disclaimer</a>
+                        <a href="/blog/disclaimer">Disclaimer</a>
                     </div>
                 </div>
                 <div class="panel">
