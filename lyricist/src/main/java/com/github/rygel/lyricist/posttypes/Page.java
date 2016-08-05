@@ -19,6 +19,7 @@ import java.util.TreeMap;
  * Created by Alexander Brandt on 11.07.2015.
  */
 public abstract class Page {
+    /** The logger instance for this class. */
     private final static Logger LOGGER = LoggerFactory.getLogger(Page.class);
 
     protected Map<String,Object> frontMatter = new HashMap<>();
@@ -33,7 +34,7 @@ public abstract class Page {
 
     }
 
-    public Page(String newFilename) {
+    public Page(String newFilename) throws Exception {
         filename = newFilename;
         try {
             readFile();
@@ -75,6 +76,7 @@ public abstract class Page {
     }
 
     public void setUrl(String newUrl) {
+        //LOGGER.debug("New set URL: " + newUrl);
         url = newUrl;
         frontMatter.put("url", newUrl);
     }

@@ -69,7 +69,7 @@ h3.highlight  {
   	padding-right:20px;
   	border-left:1px solid #ee3333;
 }
-.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus, .navbar-nav > li > .active {
     color:#666666; 
 }
 .navbar-nav > li:last-child > a {
@@ -80,9 +80,9 @@ h3.highlight  {
 	background-color:transparent;
 }
 
-.active {
-	color: #828282;
-	background-color:transparent;
+.navbar-nav > li > .active {
+	color: #666666;
+	background-color:#eee;
 }
 
 .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {

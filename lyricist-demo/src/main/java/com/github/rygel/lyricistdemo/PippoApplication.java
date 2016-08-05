@@ -17,7 +17,7 @@ import java.util.TreeMap;
  * @see PippoLauncher#main(String[])
  */
 public class PippoApplication extends Application {
-
+    /** The logger instance for this class. */
     private final static Logger log = LoggerFactory.getLogger(PippoApplication.class);
 
     @Override
@@ -57,9 +57,9 @@ public class PippoApplication extends Application {
         Map<String, Object> blogContext = new TreeMap<>();
         blogContext.put("pageTitle", "Lyricist Blog Engine");
         blogContext.put("githubUrl", "https://github.com/rygel/lyricist");
-        Layouts layouts = new Layouts("blog", "post", "authors", null, null, null);
+        Layouts layouts = new Layouts("blog", "post", "authors", null, null, null, null);
         Lyricist lyricist = new Lyricist(this);
-        lyricist.registerBlog("root", "/", layouts, blogContext);
+        //lyricist.registerBlog("root", "/", layouts, blogContext);
         lyricist.registerBlog("blog", "/blog/", layouts, blogContext);
     }
 

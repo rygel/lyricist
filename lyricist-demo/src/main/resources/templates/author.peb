@@ -1,5 +1,6 @@
 {% extends "parent" %}
 
+{% block authors_active %} active {% endblock %}
 
 {% block title %} {{post.firstName}} {{post.lastName}} - {{pageTitle}} {% endblock %}
 {% block heading %} {{post.firstName}} {{post.lastName}} {% endblock %}

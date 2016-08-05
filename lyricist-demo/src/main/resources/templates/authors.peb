@@ -1,5 +1,7 @@
 {% extends "parent" %}
 
+{% block authors_active %} active {% endblock %}
+
 {% block title %} Authors - {{pageTitle}} {% endblock %}
 {% block heading %} All Blog Authors {% endblock %}
 

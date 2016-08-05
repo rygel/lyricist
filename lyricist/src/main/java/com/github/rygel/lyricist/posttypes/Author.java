@@ -4,12 +4,11 @@ import com.github.rygel.lyricist.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 /**
  * Created by Alexander Brandt on 04.08.2016.
  */
 public class Author extends Page {
+    /** The logger instance for this class. */
     private final static Logger LOGGER = LoggerFactory.getLogger(Author.class);
 
     public Author(String newFilename) throws Exception {

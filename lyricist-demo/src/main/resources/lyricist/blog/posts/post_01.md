@@ -9,6 +9,6 @@ valid_until: 2015-08-01T00:00:00
 draft: false
 authors: [admin, rygel]
 context: 
-  pageWide
+  blog_active
 ---
 This is the first posting using Lyricist.

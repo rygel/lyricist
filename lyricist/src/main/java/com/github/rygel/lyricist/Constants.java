@@ -20,4 +20,8 @@ public class Constants {
     public static final String AUTHORS_ROUTE = "authors/";
     public static final String CATEGORIES_ROUTE = "categories/";
     public static final String TAGS_ROUTE = "tags/";
+
+    private Constants() {
+
+    }
 }

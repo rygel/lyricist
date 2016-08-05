@@ -2,6 +2,7 @@ package com.github.rygel.lyricist;
 
 import com.github.rygel.lyricist.posttypes.Author;
 import com.github.rygel.lyricist.posttypes.Post;
+import com.github.rygel.lyricist.posttypes.StaticPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
@@ -23,6 +24,7 @@ import java.util.Map;
 public final class Lyricist {
     /** The logger instance for this class. */
     private final static Logger LOGGER = LoggerFactory.getLogger(Lyricist.class);
+    /** Reference to the Pippo application instance. */
     private final Application application;
 
     private Map<String, Blog> blogs = new HashMap<>();
@@ -111,11 +113,7 @@ public final class Lyricist {
     }
 
     private boolean doesBlogExist(String name) {
-        if (blogs.containsKey(name)) {
-            return true;
-        } else {
-            return false;
-        }
+        return blogs.containsKey(name);
     }
 
     private void preparePostings(Blog blog, final String pattern) {
@@ -195,23 +193,46 @@ public final class Lyricist {
         }
     }
 
-    private void registerCategories(final Blog blog, final String pattern) {
-        final Map<String, Post> authors = blog.getPosts();
+    private void registerStaticPages(final Blog blog, final String pattern) {
+        final Map<String, StaticPage> staticPages = blog.getStaticPages();
 
-        for (final Map.Entry<String, Post> entry : authors.entrySet()) {
-            String route = pattern + Constants.CATEGORIES_ROUTE + entry.getKey();
-            Post post = entry.getValue();
-            post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getContext().get(Constants.SLUG_ID));
+        for (final Map.Entry<String, StaticPage> entry : staticPages.entrySet()) {
+            String route = pattern + Constants.AUTHORS_ROUTE + entry.getKey();
+            StaticPage staticPage = entry.getValue();
+            staticPage.setUrl(pattern + Constants.AUTHORS_ROUTE + staticPage.getFrontMatter().get(Constants.SHORT_NAME_ID));
             application.GET(route, new RouteHandler() {
                 @Override
                 public void handle(RouteContext routeContext) {
                     final Map<String, Object> context = blog.getContext();
-                    final Post author = authors.get(entry.getKey());
-                    context.putAll(author.getContext());
-                    context.put("content", author.getContent());
-                    context.put("post", author.getFrontMatter());
-                    context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
-                    routeContext.render(author.getLayout(), context);
+                    final StaticPage staticPage = staticPages.get(entry.getKey());
+                    context.putAll(staticPage.getContext());
+                    context.put("content", staticPage.getContent());
+                    context.put("post", staticPage.getFrontMatter());
+                    //context.put("authors", blog.getAuthorsList());
+                    //context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
+                    routeContext.render(staticPage.getLayout(), context);
+                }
+            });
+        }
+    }
+
+    private void registerCategories(final Blog blog, final String pattern) {
+        final Map<String, Post> posts = blog.getPosts();
+
+        for (final Map.Entry<String, Post> entry : posts.entrySet()) {
+            String route = pattern + Constants.CATEGORIES_ROUTE + entry.getKey();
+            Post post = entry.getValue();
+            //post.setUrl(pattern + Constants.AUTHORS_ROUTE + post.getContext().get(Constants.SLUG_ID));
+            application.GET(route, new RouteHandler() {
+                @Override
+                public void handle(RouteContext routeContext) {
+                    final Map<String, Object> context = blog.getContext();
+                    final Post post = posts.get(entry.getKey());
+                    context.putAll(post.getContext());
+                    context.put("content", post.getContent());
+                    context.put("post", post.getFrontMatter());
+                    context.put("url", pattern + Constants.AUTHORS_ROUTE + post.getContext().get(Constants.SLUG_ID));
+                    routeContext.render(post.getLayout(), context);
                 }
             });
         }

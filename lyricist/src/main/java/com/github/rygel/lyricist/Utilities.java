@@ -1,9 +1,18 @@
 package com.github.rygel.lyricist;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Created by Alexander Brandt on 11.07.2015.
  */
 public class Utilities {
+    /** The logger instance for this class. */
+    private final static Logger LOGGER = LoggerFactory.getLogger(Utilities.class);
 
     /**
      * Protect the constructor.
@@ -32,5 +41,19 @@ public class Utilities {
         } else {
             return pattern;
         }
+    }
+
+    /**
+     * Checks if a directory exists.
+     * @param newDirectory
+     * @return
+     */
+    public static String checkIfDirectoryExists(String newDirectory) {
+        File file = new File(newDirectory);
+        if (!Files.isDirectory(Paths.get(file.getAbsolutePath()))) {
+            LOGGER.warn("The directory \"" + newDirectory + "\" does not exist!");
+            return "";
+        }
+        return file.getAbsolutePath();
     }
 }

@@ -1,5 +1,7 @@
 {% extends "parent" %}
 
+{% block blog_active %} active {% endblock %}
+
 {% block title %} {{post.title}} - {{pageTitle}} {% endblock %}
 {% block heading %} {{post.title}} {% endblock %}
 

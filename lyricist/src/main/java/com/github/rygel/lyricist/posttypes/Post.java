@@ -15,6 +15,7 @@ import java.util.Map;
  * @author Alexander Brandt
  */
 public class Post extends Page {
+    /** The logger instance for this class. */
     private final static Logger LOGGER = LoggerFactory.getLogger(Post.class);
 
     private Map<String, Author> authors = new HashMap<>();

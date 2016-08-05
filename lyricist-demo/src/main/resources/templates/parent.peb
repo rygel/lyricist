@@ -20,12 +20,12 @@
       </a>
       <div class="nav-collapse collase">
         <ul class="nav navbar-nav">
-          <li><a href="/" class="navbar-nav active">Home</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/blog/categories">Categories</a></li>
-          <li><a href="/blog/tags">Tags</a></li>
-          <li><a href="/blog/authors">Authors</a></li>
-          <li><a href="/about">About</a></li>
+          <li><a href="/" class="{% block home_active %}{% endblock %}">Home</a></li>
+          <li><a href="/blog" class="{% block blog_active %}{% endblock %}">Blog</a></li>
+          <li><a href="/blog/categories" class="{% block categories_active %}{% endblock %}">Categories</a></li>
+          <li><a href="/blog/tags" class="{% block tags_active %}{% endblock %}">Tags</a></li>
+          <li><a href="/blog/authors" class="{% block authors_active %}{% endblock %}">Authors</a></li>
+          <li><a href="/about" class="{% block about_active %}{% endblock %}">About</a></li>
         </ul>
         <ul class="nav navbar-right navbar-nav">
           <li class="dropdown">

@@ -6,7 +6,6 @@ import com.github.rygel.lyricist.posttypes.StaticPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,13 +23,13 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-
 /**
  * The main blog class.
  *
  * Created by Alexander Brandt on 07.07.2015.
  */
 public class Blog {
+    /** The logger instance for this class. */
     private final static Logger LOGGER = LoggerFactory.getLogger(Blog.class);
 
     private String directory;
@@ -41,7 +40,7 @@ public class Blog {
     private Layouts layouts;
     private Map<String, Post> posts = new HashMap<>();
     private Map<String, Post> drafts = new HashMap<>();
-    private Map<String, StaticPage> static_pages = new HashMap<>();
+    private Map<String, StaticPage> staticPages = new HashMap<>();
     private SortedMap<Date, Post> postsOrderedByDate = new TreeMap<>();
     private Map<String, Object> context = new HashMap<>();
     private Map<String, Author> authors = new HashMap<>();
@@ -51,15 +50,6 @@ public class Blog {
     public Set<String> categories = new TreeSet<>();
     public String url;
 
-    private String checkIfDirectoryExists(String newDirectory) {
-        File file = new File(newDirectory);
-        if (!Files.isDirectory(Paths.get(file.getAbsolutePath()))) {
-            LOGGER.warn("The directory \"" + newDirectory + "\" does not exist!");
-            return "";
-        }
-        return file.getAbsolutePath();
-    }
-
     public Blog(String newName, URL newDirectory) throws Exception {
         String mainDirectory;
 
@@ -68,19 +58,19 @@ public class Blog {
         }
 
         try {
-            mainDirectory = checkIfDirectoryExists(newDirectory.toURI().getPath());
+            mainDirectory = Utilities.checkIfDirectoryExists(newDirectory.toURI().getPath());
         } catch (URISyntaxException e) {
             throw new Exception("The blog directory does not exist: " + newDirectory.toString());
         }
 
         String authorDirectory = mainDirectory + Constants.AUTHORS_DIR;
-        this.authorsDirectory = checkIfDirectoryExists(authorDirectory);
+        this.authorsDirectory = Utilities.checkIfDirectoryExists(authorDirectory);
 
         String postsDirectory = mainDirectory + Constants.POSTS_DIR;
-        this.postsDirectory = checkIfDirectoryExists(postsDirectory);
+        this.postsDirectory = Utilities.checkIfDirectoryExists(postsDirectory);
 
         String staticPagesDirectory = mainDirectory + Constants.STATIC_PAGES_DIR;
-        this.staticPagesDirectory = checkIfDirectoryExists(staticPagesDirectory);
+        this.staticPagesDirectory = Utilities.checkIfDirectoryExists(staticPagesDirectory);
 
         this.directory = mainDirectory;
         this.name = newName;
@@ -89,9 +79,14 @@ public class Blog {
         readStaticPagesDirectory();
     }
 
+    /**
+     * Method to reload all the files.
+     * TODO: final implementation needed!
+     */
     public void reload() {
         readPostsDirectory();
         readAuthorsDirectory();
+        readStaticPagesDirectory();
     }
 
     public String getName() {
@@ -108,6 +103,10 @@ public class Blog {
 
     public SortedMap<Date, Post> getPosts(Date from, Date to) {
         return postsOrderedByDate;
+    }
+
+    public Map<String, StaticPage> getStaticPages() {
+        return staticPages;
     }
 
     public Map<String, Author> getAuthors() {
@@ -208,12 +207,12 @@ public class Blog {
 
     private void readStaticPagesDirectory() {
         if (!staticPagesDirectory.equals("")) {
-            static_pages.clear();
+            staticPages.clear();
             try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(staticPagesDirectory))) {
                 for (Path path : directoryStream) {
                     try {
-                        Post post = new Post(path.toString(), authors);
-                        //static_pages.put(post.getShortName(), post);
+                        StaticPage staticPage = new StaticPage(path.toString());
+                        staticPages.put(staticPage.toString(), staticPage);
                     } catch (Exception e) {
                         LOGGER.error(e.toString());
                     }
