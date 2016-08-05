@@ -1,4 +1,4 @@
-package com.github.rygel.lyricist;
+package io.andromeda.lyricist;
 
 /**
  * Created by Alexander Brandt on 08.07.2015.

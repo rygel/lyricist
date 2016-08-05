@@ -1,4 +1,4 @@
-package com.github.rygel.lyricist;
+package io.andromeda.lyricist;
 
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;

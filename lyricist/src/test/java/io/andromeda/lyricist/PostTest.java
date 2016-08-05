@@ -1,6 +1,6 @@
-package com.github.rygel.lyricist;
+package io.andromeda.lyricist;
 
-import com.github.rygel.lyricist.posttypes.Post;
+import io.andromeda.lyricist.posttypes.Post;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;

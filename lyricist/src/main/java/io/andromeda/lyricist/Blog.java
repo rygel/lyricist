@@ -1,8 +1,8 @@
-package com.github.rygel.lyricist;
+package io.andromeda.lyricist;
 
-import com.github.rygel.lyricist.posttypes.Author;
-import com.github.rygel.lyricist.posttypes.Post;
-import com.github.rygel.lyricist.posttypes.StaticPage;
+import io.andromeda.lyricist.posttypes.Author;
+import io.andromeda.lyricist.posttypes.Post;
+import io.andromeda.lyricist.posttypes.StaticPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

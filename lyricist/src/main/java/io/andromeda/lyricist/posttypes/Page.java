@@ -1,7 +1,7 @@
-package com.github.rygel.lyricist.posttypes;
+package io.andromeda.lyricist.posttypes;
 
-import com.github.rygel.lyricist.Constants;
-import com.github.rygel.lyricist.Utilities;
+import io.andromeda.lyricist.Constants;
+import io.andromeda.lyricist.Utilities;
 import org.apache.commons.io.FilenameUtils;
 import org.pegdown.PegDownProcessor;
 import org.slf4j.Logger;

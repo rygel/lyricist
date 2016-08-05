@@ -1,12 +1,12 @@
-package com.github.rygel.lyricistdemo;
+package io.andromeda.lyricistdemo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
-import com.github.rygel.lyricist.Layouts;
-import com.github.rygel.lyricist.Lyricist;
+import io.andromeda.lyricist.Layouts;
+import io.andromeda.lyricist.Lyricist;
 
 import java.util.Map;
 import java.util.TreeMap;

@@ -1,6 +1,6 @@
-package com.github.rygel.lyricist.posttypes;
+package io.andromeda.lyricist.posttypes;
 
-import com.github.rygel.lyricist.Constants;
+import io.andromeda.lyricist.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

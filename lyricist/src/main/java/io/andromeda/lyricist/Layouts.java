@@ -1,4 +1,4 @@
-package com.github.rygel.lyricist;
+package io.andromeda.lyricist;
 
 /**
  * The Layouts class. Here different default layouts, i.e. references to template files, for the blog page,
