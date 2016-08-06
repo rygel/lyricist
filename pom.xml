@@ -39,7 +39,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pippo.version>0.8.0</pippo.version>
+        <pippo.version>0.9.0-SNAPSHOT</pippo.version>
         <slf4j.version>1.7.21</slf4j.version>
     </properties>
 

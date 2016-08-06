@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.PippoSettings;
+import ro.pippo.core.TemplateEngine;
 import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
 import ro.pippo.core.util.ClasspathUtils;
@@ -34,27 +35,29 @@ public final class Lyricist {
      * @param application The Pippo Application instance. Usually always this.
      */
     public Lyricist(Application application) {
-        this.application = application;
+      this.application = application;
+      TemplateEngine t = application.getTemplateEngine();
+      //t.init();
 
         PippoSettings settings = application.getPippoSettings();
         List<String> blogStrings = settings.getStrings("lyricist.blogs");
         for (String blogString : blogStrings) {
             String[] splits = blogString.split(":");
             if (splits.length != 2) {
-                LOGGER.error("Wrong blog definition (" + blogString + ")! Must be [blogName]:[blogDirectory].");
+                LOGGER.error("Wrong blog definition ({})! Must be [blogName]:[blogDirectory].", blogString);
                 return;
             }
             URL location = ClasspathUtils.locateOnClasspath("lyricist/" + splits[1]);
             if (location == null) {
-                LOGGER.error("The directory for the blog data (\"" + splits[1] + "\") for blog \"" + splits[0]
-                        + "\" does not exist or does not contain any files! The blog will not be loaded.");
+                LOGGER.error("The directory for the blog data (\"{}\") for blog \"{}\" does not exist or does not contain any files! The blog will not be loaded.",
+                  splits[1], splits[0]);
             } else {
                 try {
                     Blog blog = new Blog(splits[0], location);
                     blogs.put(splits[0], blog);
-                    LOGGER.debug("Added blog \"" + splits[0] + "\" with its data directory: " + location + ".");
+                    LOGGER.debug("Added blog \"{}\" with its data directory: {}.", splits[0], location);
                 } catch (Exception e) {
-                    LOGGER.error("Error during blog creation: " + e.getMessage());
+                    LOGGER.error("Error during blog creation: {}", e.getMessage());
                 }
             }
         }
@@ -66,7 +69,7 @@ public final class Lyricist {
 
     public void registerBlog(String name, final String pattern, final Layouts layouts, Map<String, Object> context) {
         if (!doesBlogExist(name)) {
-            LOGGER.error("Cannot register blog. The blog with the name \"" + name + "\" does not exist!");
+            LOGGER.error("Cannot register blog. The blog with the name \"{}\" does not exist!", name);
             return;
         }
 
@@ -132,8 +135,8 @@ public final class Lyricist {
                 post.setLayout(layouts.getPost());
             }
             if (post.getLayout() == null) {
-                LOGGER.error("No layout available for post \"" + post.getFilename() + "\"! "
-                        + "Please add either a global post layout via Layout or a local one via the posts front matter!");
+                LOGGER.error("No layout available for post \"{}\"! "
+                        + "Please add either a global post layout via Layout or a local one via the posts front matter!", post.getFilename());
             }
         }
         blog.globalContext = globalContext;

@@ -85,34 +85,41 @@
 
 <!-- Begin Body -->
 <div class="container">
-	<div class="row">
-  			<div class="col col-sm-3">
-              	<div id="sidebar">
-      			<ul class="nav nav-stacked">
-                    <li><h3 class="highlight">{% block sidebar_heading %} {% endblock %} <i class="glyphicon glyphicon-dashboard pull-right"></i></h3></li>
-                    {% block sidebar_list %} {% endblock %}
-				</ul>
-               </div>
-      		</div>
-      		<div class="col col-sm-9">
-              <div class="panel">
-                <div class="row">
-                  <h1>{% block heading %} {% endblock %}</h1>
-                  {% block content %} {% endblock %}
-                </div>
-              </div>
-                <div class="panel">
-                    <div class="row" style="alignment: right">
-                        <a href="/blog/disclaimer">Disclaimer</a>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="row">
-                        <h5>Powered by the free <a href="http://www.bootstrapzero.com/bootstrap-template/flathood">Flathood Bootstrap Template</a>.</h5>
-                    </div>
-                </div>
-      	</div>
-  	</div>
+  <div class="row">
+    <div class="col col-sm-3">
+      <div id="sidebar">
+        <ul class="nav nav-stacked">
+          <li><h3 class="highlight">{% block sidebar_heading %} {% endblock %} <i
+            class="glyphicon glyphicon-dashboard pull-right"></i></h3></li>
+          {% block sidebar_list %} {% endblock %}
+        </ul>
+      </div>
+    </div>
+    <div class="col col-sm-9">
+      <div class="panel">
+        <div class="row">
+          <h1>{% block heading %} {% endblock %}</h1>
+          {% block content %} {% endblock %}
+        </div>
+      </div>
+      <div class="panel">
+        <div class="row" style="alignment: right">
+          <a href="/blog/disclaimer">Disclaimer</a>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="row" style="alignment: right">
+          <a href="mailto:{{email | obfuscate | raw}}">{{email | obfuscate | raw}}</a> rgqaawgqwae
+        </div>
+      </div>
+      <div class="panel">
+        <div class="row">
+          <h5>Powered by the free <a href="http://www.bootstrapzero.com/bootstrap-template/flathood">Flathood Bootstrap
+            Template</a>.</h5>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
