@@ -212,6 +212,7 @@ public final class Lyricist {
                     context.putAll(staticPage.getContext());
                     context.put("content", staticPage.getContent());
                     context.put("post", staticPage.getFrontMatter());
+                    context.put("blog", blog.globalContext);
                     //context.put("authors", blog.getAuthorsList());
                     //context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
                     routeContext.render(staticPage.getLayout(), context);
