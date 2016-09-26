@@ -13,13 +13,17 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: ro.pippo:pippo-core:0.9.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: ro.pippo:pippo-pebble:0.9.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: ro.pippo:pippo-snakeyaml:0.9.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: ro.pippo:pippo-jetty:0.9.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: ro.pippo:pippo-core:0.9.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
+    <orderEntry type="library" name="Maven: ro.pippo:pippo-pebble:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: com.mitchellbosecke:pebble:2.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:16.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.coverity.security:coverity-escapers:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.ocpsoft.prettytime:prettytime:3.2.5.Final" level="project" />
-    <orderEntry type="library" name="Maven: ro.pippo:pippo-snakeyaml:0.9.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: ro.pippo:pippo-snakeyaml:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.17" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.1.7" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.1.7" level="project" />
@@ -34,7 +38,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-all:1.3" level="project" />
-    <orderEntry type="library" name="Maven: ro.pippo:pippo-jetty:0.9.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: ro.pippo:pippo-jetty:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.3.8.v20160314" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-http:9.3.8.v20160314" level="project" />
