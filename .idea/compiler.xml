@@ -27,9 +27,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="lyricist" target="1.7" />
-      <module name="lyricist-2" target="1.7" />
-      <module name="lyricist-demo" target="1.7" />
+      <module name="lyricist" target="1.8" />
+      <module name="lyricist-all" target="1.8" />
+      <module name="lyricist-demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
