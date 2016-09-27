@@ -5,19 +5,19 @@
     <parent>
         <artifactId>lyricist-parent</artifactId>
         <groupId>io.andromeda</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.andromeda</groupId>
     <artifactId>lyricist-demo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>io.andromeda</groupId>
             <artifactId>lyricist</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
       <dependency>

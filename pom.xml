@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.andromeda</groupId>
     <artifactId>lyricist-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>lyricist-parent</name>
     <description>A Pippo application</description>
@@ -37,9 +37,20 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pippo.version>0.9.0-SNAPSHOT</pippo.version>
+        <pippo.version>0.9.1</pippo.version>
         <slf4j.version>1.7.21</slf4j.version>
     </properties>
 
