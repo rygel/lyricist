@@ -139,6 +139,13 @@
             <version>${pippo.version}</version>
         </dependency>
 
+        <!-- JSON -->
+        <dependency>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-fastjson</artifactId>
+            <version>${pippo.version}</version>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>ch.qos.logback</groupId>

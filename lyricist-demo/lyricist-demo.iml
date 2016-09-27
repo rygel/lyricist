@@ -19,6 +19,8 @@
     <orderEntry type="library" name="Maven: ro.pippo:pippo-core:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: ro.pippo:pippo-snakeyaml:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.17" level="project" />
+    <orderEntry type="library" name="Maven: ro.pippo:pippo-fastjson:0.9.1" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.8" level="project" />
     <orderEntry type="library" name="Maven: org.pegdown:pegdown:1.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.parboiled:parboiled-java:1.1.7" level="project" />
     <orderEntry type="library" name="Maven: org.parboiled:parboiled-core:1.1.7" level="project" />

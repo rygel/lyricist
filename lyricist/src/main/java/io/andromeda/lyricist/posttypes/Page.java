@@ -1,5 +1,6 @@
 package io.andromeda.lyricist.posttypes;
 
+import com.alibaba.fastjson.JSON;
 import io.andromeda.lyricist.Constants;
 import io.andromeda.lyricist.Utilities;
 import org.apache.commons.io.FilenameUtils;
@@ -24,6 +25,7 @@ public abstract class Page {
 
     protected Map<String,Object> frontMatter = new HashMap<>();
     protected Map<String,Object> context = new HashMap<>();
+    protected FrontMatterType frontMatterType;
     protected String content = "";
     protected String filename;
     protected String slug;
@@ -105,12 +107,18 @@ public abstract class Page {
         while (line.isEmpty()) {
             line = br.readLine();
         }
-        if (!line.matches("[-]{3,}")) { // use at least three dashes
-            throw new IllegalArgumentException("YAML Front Matter is missing in file: " + filename);
+        if (!line.matches("[-]{3,}")) { // use at least three dashes or opening curly braces
+            if (!line.matches("[{]{3,}")) {
+                throw new IllegalArgumentException("YAML/JSON Front Matter is missing in file: " + filename);
+            } else {
+                frontMatterType = FrontMatterType.JSON;
+            }
+        } else {
+            frontMatterType = FrontMatterType.YAML;
         }
         final String delimiter = line;
 
-        // scan YAML front matter
+        // scan front matter
         StringBuilder sb = new StringBuilder();
         line = br.readLine();
         while (!line.equals(delimiter)) {
@@ -120,9 +128,14 @@ public abstract class Page {
         }
 
         // readFile data
-        parseYamlFrontMatter(sb.toString());
-        interpretYamlFrontMatterGeneral();
-        interpretYamlFrontMatterSpecial();
+        if (frontMatterType == FrontMatterType.YAML) {
+            parseYamlFrontMatter(sb.toString());
+        } else {
+            parseJsonFrontMatter(sb.toString());
+        }
+
+        interpretFrontMatterGeneral();
+        interpretFrontMatterSpecial();
         parseMarkdown(br);
     }
 
@@ -138,7 +151,7 @@ public abstract class Page {
     /**
      * General front matter entries, which should always be available.
      */
-    private void interpretYamlFrontMatterGeneral() {
+    private void interpretFrontMatterGeneral() {
         String fmSlug = (String)frontMatter.get(Constants.SLUG_ID);
         if (fmSlug != null) {
             slug = fmSlug;
@@ -154,7 +167,16 @@ public abstract class Page {
     /**
      *  Special front matter entries. Needs to be taken care of in child class.
      */
-    protected abstract void interpretYamlFrontMatterSpecial();
+    protected abstract void interpretFrontMatterSpecial();
+
+    /**
+     * Parses the JSON front-matter.
+     * @param jsonString A string containing the complete YAML front-matter
+     */
+    protected void parseJsonFrontMatter(String jsonString) {
+
+        frontMatter = (Map< String, Object>) JSON.parse(jsonString);
+    }
 
     protected void parseMarkdown(BufferedReader br) throws IOException {
         String markdown = org.apache.commons.io.IOUtils.toString(br);

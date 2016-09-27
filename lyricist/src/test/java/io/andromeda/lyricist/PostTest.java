@@ -32,7 +32,7 @@ public class PostTest extends Assert {
     @Test
     public void testNoFrontMatter() throws Exception {
         thrown.expect(Exception.class);
-        thrown.expectMessage("YAML Front Matter is missing in file: ");
+        thrown.expectMessage("YAML/JSON Front Matter is missing in file: ");
         Post post = new Post(System.getProperty("user.dir") + "/src/test/resources/lyricist/blog/no_front_matter.md", null);
     }
 

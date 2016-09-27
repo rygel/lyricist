@@ -20,7 +20,7 @@ public class Author extends Page {
         return (String)context.get("shortName");
     }
 
-    protected void interpretYamlFrontMatterSpecial() {
+    protected void interpretFrontMatterSpecial() {
         context.put("shortName", (String)frontMatter.get(Constants.SHORT_NAME_ID));
     }
 }

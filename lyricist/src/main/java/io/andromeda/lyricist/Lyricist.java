@@ -12,7 +12,11 @@ import ro.pippo.core.route.RouteContext;
 import ro.pippo.core.route.RouteHandler;
 import ro.pippo.core.util.ClasspathUtils;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,16 +53,27 @@ public final class Lyricist {
             }
             URL location = ClasspathUtils.locateOnClasspath("lyricist/" + splits[1]);
             if (location == null) {
-                LOGGER.error("The directory for the blog data (\"{}\") for blog \"{}\" does not exist or does not contain any files! The blog will not be loaded.",
-                  splits[1], splits[0]);
-            } else {
-                try {
-                    Blog blog = new Blog(splits[0], location);
-                    blogs.put(splits[0], blog);
-                    LOGGER.debug("Added blog \"{}\" with its data directory: {}.", splits[0], location);
-                } catch (Exception e) {
-                    LOGGER.error("Error during blog creation: {}", e.getMessage());
+                // The blog path is not found in the class path. Now checking the file system.
+                Path blogPath = Paths.get(splits[1]);
+                //Check for path in the file system, not the Classpath.
+                if (Files.exists(blogPath)) {
+                    // The blog directory was found in the file system
+                    try {
+                        location =  blogPath.toUri().toURL();
+                    } catch (MalformedURLException e) {
+                        LOGGER.error("Problems working with the blog path: " + e.toString());
+                    }
+                } else {
+                    LOGGER.error("The directory for the blog data (\"{}\") for blog \"{}\" does not exist or does not contain any files! The blog will not be loaded.",
+                            splits[1], splits[0]);
                 }
+            }
+            try {
+                Blog blog = new Blog(splits[0], location);
+                blogs.put(splits[0], blog);
+                LOGGER.debug("Added blog \"{}\" with its data directory: {}.", splits[0], location);
+            } catch (Exception e) {
+                LOGGER.error("Error during blog creation: {}", e.getMessage());
             }
         }
     }
@@ -67,6 +82,13 @@ public final class Lyricist {
         registerBlog(blogName, pattern, layouts, null);
     }
 
+    /**
+     * Registers a new blog in lyricist.
+     * @param name
+     * @param pattern
+     * @param layouts
+     * @param context
+     */
     public void registerBlog(String name, final String pattern, final Layouts layouts, Map<String, Object> context) {
         if (!doesBlogExist(name)) {
             LOGGER.error("Cannot register blog. The blog with the name \"{}\" does not exist!", name);

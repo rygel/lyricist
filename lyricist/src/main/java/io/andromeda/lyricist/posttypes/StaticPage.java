@@ -22,7 +22,7 @@ public class StaticPage extends Page {
         return route;
     }
 
-    protected void interpretYamlFrontMatterSpecial() {
+    protected void interpretFrontMatterSpecial() {
         route = (String)frontMatter.get(Constants.ROUTE_ID);
         if (route.startsWith("/")) {
             LOGGER.warn("A static page should never start with a \"/\"!");

@@ -35,7 +35,7 @@ public class Post extends Page {
         return draft;
     }
 
-    protected void interpretYamlFrontMatterSpecial() {
+    protected void interpretFrontMatterSpecial() {
         published = (Date)frontMatter.get(Constants.PUBLISHED_ID);
         validUntil = (Date)frontMatter.get(Constants.VALID_UNTIL_ID);
         draft = (Boolean)frontMatter.get(Constants.DRAFT_ID);

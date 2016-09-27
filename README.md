@@ -161,6 +161,19 @@ The post level context is part of the specific post, i.e. it will be only access
 TODO: Explain the default slug creation algorithm.
 
 
+## Features
+### Deployment
+#### Blog/static data files location
+Store the blog/static files data files either in the application jar or externally.
+```
+# Lyricist
+lyricist.blogs = rootBlog:static-files, blog:data/blog
+```
+The first lblog definition is using the files from the application jar (TODO: verify!) and the second blog definition is
+using a path external to the application jar, but relative to the application root directory to locate the blog files.
+This is useful for bundling the static files with the application, but enables the addition of new blog posts without 
+re-building and re-deploying the application jar.
+
 ## TODO
 - Add the ability to change context manually for each blog, e.g. lyricist.changeContext();
 - Add the ability to add context to each document.
@@ -172,6 +185,10 @@ TODO: Explain the default slug creation algorithm.
 - Add validUntil support.
 - Add checking if a route for a post already exists.
 - Replace Pegdown by [flexmark](https://github.com/vsch/flexmark-java)
+- Add support for hardcoded blog paths!
+- Add support for JSON frontmatter.
+- Add multi-language support, i.e. multiple versions of the same blog post in different languages. Add new directory 
+hierarchy under the main one. `blog/en/` means all posts in English, `blog/de/` all posts in german, with fallback to the default language.
 
 ## DONE
 - Add global static context for each blog.
