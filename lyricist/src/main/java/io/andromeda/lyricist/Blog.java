@@ -168,7 +168,7 @@ public class Blog {
             try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(authorsDirectory))) {
                 for (Path path : directoryStream) {
                     try {
-                        Author author = new Author(path.toString());
+                        Author author = new Author(path.normalize().toString());
                         authors.put(author.getShortName(), author);
                     } catch (Exception e) {
                     LOGGER.error(e.toString());
@@ -187,7 +187,7 @@ public class Blog {
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(directory))) {
             for (Path path : directoryStream) {
                 try {
-                    Post post = new Post(path.toString(), authors);
+                    Post post = new Post(path.normalize().toString(), authors);
                     if (post.getDraft()) {
                         drafts.put(post.getSlug(), post);
                     } else {
@@ -211,7 +211,7 @@ public class Blog {
             try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(staticPagesDirectory))) {
                 for (Path path : directoryStream) {
                     try {
-                        StaticPage staticPage = new StaticPage(path.toString());
+                        StaticPage staticPage = new StaticPage(path.normalize().toString());
                         staticPages.put(staticPage.getRoute(), staticPage);
                     } catch (Exception e) {
                         LOGGER.error(e.toString());
