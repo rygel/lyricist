@@ -5,15 +5,15 @@
     <parent>
         <artifactId>lyricist-parent</artifactId>
         <groupId>io.andromeda</groupId>
-        <version>0.2.0</version>
+        <version>0.2.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lyricist</artifactId>
     <groupId>io.andromeda</groupId>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     <description>A blog/static pages engine for the Pippo Micro Java Framework.</description>
-    <url>http://andromeda.io/lyricist</url>
+    <url>http://andromeda.io/code/lyricist</url>
 
     <licenses>
       <license>
