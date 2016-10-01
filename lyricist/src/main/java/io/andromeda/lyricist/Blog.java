@@ -212,7 +212,7 @@ public class Blog {
                 for (Path path : directoryStream) {
                     try {
                         StaticPage staticPage = new StaticPage(path.normalize().toString());
-                        staticPages.put(staticPage.getRoute(), staticPage);
+                        staticPages.put(staticPage.getSlug(), staticPage);
                     } catch (Exception e) {
                         LOGGER.error(e.toString());
                     }
