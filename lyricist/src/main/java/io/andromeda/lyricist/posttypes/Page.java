@@ -97,6 +97,7 @@ public abstract class Page {
 
     protected final void readFile() throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(filename));
+        final String delimiter;
 
         // detect YAML front matter
         String line = br.readLine();
@@ -112,19 +113,26 @@ public abstract class Page {
                 throw new IllegalArgumentException("YAML/JSON Front Matter is missing in file: " + filename);
             } else {
                 frontMatterType = FrontMatterType.JSON;
+                delimiter = "}}}";
             }
         } else {
             frontMatterType = FrontMatterType.YAML;
+            delimiter = line;
         }
-        final String delimiter = line;
 
         // scan front matter
         StringBuilder sb = new StringBuilder();
+        if (frontMatterType == FrontMatterType.JSON) {
+            sb.append("{");
+        }
         line = br.readLine();
         while (!line.equals(delimiter)) {
             sb.append(line);
             sb.append("\n");
             line = br.readLine();
+        }
+        if (frontMatterType == FrontMatterType.JSON) {
+            sb.append("}");
         }
 
         // readFile data

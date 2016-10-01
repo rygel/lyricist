@@ -5,6 +5,7 @@ Lyricist
 A blog/static pages engine for the [Pippo](https://github.com/decebals/pippo) Java Micro Framework. It is inspired by
  [Poet](http://jsantell.github.io/poet/). It supports the following features:
 - [Author Pages](#author_pages)
+- [Static Pages](#static_pages)
 - [Blog and Post Level Context](#context)
 - Categories
 - Drafts
@@ -153,6 +154,36 @@ lyricist.registerBlog("blog", "/blog/", blogContext);
 #### Post Level Context
 The post level context is part of the specific post, i.e. it will be only accessible inside that specific post.
 
+### Static Pages<a name='static_pages'/>
+There exists support for static pages (for legal disclaimers, privacy policy, etc.) in Lyricist. The files are places in
+a directory called `static_pages` below the blog main directory and next to the `posts` directory. Then for
+every file inside this directory a static page is created.
+The author pages have to route `[blog name]/[route]`. this means you have to either speciify the route in the front matter via
+e.g. `route: privacy_policy` or if omitted, the filename without extension is used for the route.
+
+Example of an static page Markdown file:
+```
+---
+layout: static_pages
+title: About
+draft: false
+slug: about
+context: 
+  pageWide
+---
+The biography of the user Rygel.
+```
+#### Default Front Matter keys for Static Pages:
+Key           | Description
+------------- | -------------
+layout        | The name of the layout file as registered with Pippo (mandatory).
+title         | The title of this page (optional).
+draft         | If the page has draft status (not yet implemented).
+slug          | The slug of the static page (optional). When no slug is given, a default one is created. See Slug Creation.
+context       | Additional static page level context (optional).
+
+
+
 ### Multiple Blogs
 
 
@@ -187,6 +218,7 @@ re-building and re-deploying the application jar.
 - Replace Pegdown by [flexmark](https://github.com/vsch/flexmark-java)
 - Add support for hardcoded blog paths!
 - Add support for JSON frontmatter.
+- Add draft flag for static pages.
 - Add multi-language support, i.e. multiple versions of the same blog post in different languages. Add new directory 
 hierarchy under the main one. `blog/en/` means all posts in English, `blog/de/` all posts in german, with fallback to the default language.
 
@@ -200,5 +232,6 @@ hierarchy under the main one. `blog/en/` means all posts in English, `blog/de/` 
 
 ## Dependencies
 - [SnakeYaml](https://bitbucket.org/asomov/snakeyaml)
+- [fastjson](https://github.com/alibaba/fastjson)
 - [Pegdown](https://github.com/sirthias/pegdown)
 - [Apache Commons IO](https://commons.apache.org/proper/commons-io/)

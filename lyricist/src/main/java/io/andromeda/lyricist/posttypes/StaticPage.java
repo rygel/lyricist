@@ -1,6 +1,7 @@
 package io.andromeda.lyricist.posttypes;
 
 import io.andromeda.lyricist.Constants;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,23 +12,12 @@ public class StaticPage extends Page {
     /** The logger instance for this class. */
     private final static Logger LOGGER = LoggerFactory.getLogger(StaticPage.class);
 
-    private String route;
-
     public StaticPage(String newFilename) throws Exception {
         filename = newFilename;
         readFile();
     }
 
-    public String getRoute() {
-        return route;
-    }
-
     protected void interpretFrontMatterSpecial() {
-        route = (String)frontMatter.get(Constants.ROUTE_ID);
-        if (route.startsWith("/")) {
-            LOGGER.warn("A static page should never start with a \"/\"!");
-        }
-        context.put("route", route);
 
     }
 }
