@@ -57,6 +57,10 @@ public class Blog {
             throw new Exception("The blog directory is empty! Blog: " + newName);
         }
 
+        if (newDirectory.getProtocol().equals("jar")) {
+
+        }
+
         try {
             mainDirectory = Utilities.checkIfDirectoryExists(newDirectory.toURI().getPath());
         } catch (URISyntaxException e) {

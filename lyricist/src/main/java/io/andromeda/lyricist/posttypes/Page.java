@@ -8,13 +8,20 @@ import org.pegdown.PegDownProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
+import ro.pippo.core.util.ClasspathUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
+import static ro.pippo.core.util.ClasspathUtils.*;
 
 /**
  * Created by Alexander Brandt on 11.07.2015.
@@ -28,6 +35,7 @@ public abstract class Page {
     protected FrontMatterType frontMatterType;
     protected String content = "";
     protected String filename;
+    protected Path path;
     protected String slug;
     public String url;
     protected String layout;
@@ -96,21 +104,33 @@ public abstract class Page {
     }
 
     protected final void readFile() throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(filename));
+        // First try the classpath
+        URL url = locateOnClasspath(filename);
+        if (url == null) {
+            Path path = Paths.get(filename);
+            if (Files.exists(path)) {
+              url = path.toUri().toURL();
+            } else {
+              LOGGER.error("Cannot load file \"" + filename + "\"!");
+              throw new Exception(filename + " (The system cannot find the file specified)");
+            }
+        }
+        path = Paths.get(url.toURI());
+        BufferedReader br = new BufferedReader(new FileReader(url.getFile()));
         final String delimiter;
 
         // detect YAML front matter
         String line = br.readLine();
         if (line == null) {
             LOGGER.warn("File \"" + filename + "\" is empty.");
-            throw new Exception("File is empty: " + filename);
+            throw new Exception("File is empty: " + path.normalize().toAbsolutePath().toString());
         }
         while (line.isEmpty()) {
             line = br.readLine();
         }
         if (!line.matches("[-]{3,}")) { // use at least three dashes or opening curly braces
             if (!line.matches("[{]{3,}")) {
-                throw new IllegalArgumentException("YAML/JSON Front Matter is missing in file: " + filename);
+                throw new IllegalArgumentException("YAML/JSON Front Matter is missing in file: " + path.normalize().toString());
             } else {
                 frontMatterType = FrontMatterType.JSON;
                 delimiter = "}}}";

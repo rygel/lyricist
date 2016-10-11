@@ -52,7 +52,9 @@ public final class Lyricist {
                 return;
             }
             URL location = ClasspathUtils.locateOnClasspath("lyricist/" + splits[1]);
+
             if (location == null) {
+
                 // The blog path is not found in the class path. Now checking the file system.
                 Path blogPath = Paths.get(splits[1]);
                 //Check for path in the file system, not the Classpath.
@@ -67,6 +69,8 @@ public final class Lyricist {
                     LOGGER.error("The directory for the blog data (\"{}\") for blog \"{}\" does not exist or does not contain any files! The blog will not be loaded.",
                             splits[1], splits[0]);
                 }
+            } else {
+              LOGGER.info(location.toString());
             }
             try {
                 Blog blog = new Blog(splits[0], location);
@@ -113,8 +117,8 @@ public final class Lyricist {
                 public void handle(RouteContext routeContext) {
                     final Map<String, Object> context = blog.getContext();
                     context.putAll(post.getContext());
-                    context.put("content", post.getContent());
-                    context.put("post", post.getFrontMatter());
+                    context.put(Constants.CONTENT_ID, post.getContent());
+                    context.put(Constants.PAGE_ID, post.getFrontMatter());
                     context.put("blog", blog.globalContext);
                     context.put("blogUrl", blog.url);
 
@@ -191,8 +195,8 @@ public final class Lyricist {
                     final Map<String, Object> context = blog.getContext();
                     final Author author = authors.get(entry.getKey());
                     context.putAll(author.getContext());
-                    context.put("content", author.getContent());
-                    context.put("post", author.getFrontMatter());
+                    context.put(Constants.CONTENT_ID, author.getContent());
+                    context.put(Constants.PAGE_ID, author.getFrontMatter());
                     context.put("authors", blog.getAuthorsList());
                     //context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
                     routeContext.render(author.getLayout(), context);
@@ -232,8 +236,8 @@ public final class Lyricist {
                     final Map<String, Object> context = blog.getContext();
                     final StaticPage staticPage = staticPages.get(entry.getKey());
                     context.putAll(staticPage.getContext());
-                    context.put("content", staticPage.getContent());
-                    context.put("post", staticPage.getFrontMatter());
+                    context.put(Constants.CONTENT_ID, staticPage.getContent());
+                    context.put(Constants.PAGE_ID, staticPage.getFrontMatter());
                     context.put("blog", blog.globalContext);
                     //context.put("authors", blog.getAuthorsList());
                     //context.put("url", pattern + Constants.AUTHORS_ROUTE + author.getContext().get(Constants.SLUG_ID));
@@ -256,8 +260,8 @@ public final class Lyricist {
                     final Map<String, Object> context = blog.getContext();
                     final Post post = posts.get(entry.getKey());
                     context.putAll(post.getContext());
-                    context.put("content", post.getContent());
-                    context.put("post", post.getFrontMatter());
+                    context.put(Constants.CONTENT_ID, post.getContent());
+                    context.put(Constants.PAGE_ID, post.getFrontMatter());
                     context.put("url", pattern + Constants.AUTHORS_ROUTE + post.getContext().get(Constants.SLUG_ID));
                     routeContext.render(post.getLayout(), context);
                 }

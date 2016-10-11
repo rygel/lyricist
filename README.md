@@ -11,7 +11,9 @@ A blog/static pages engine for the [Pippo](https://github.com/decebals/pippo) Ja
 - Drafts
 - Multiple Blogs
 - Tags
+- JSON/YAML Front Matter
 - Valid until management (not yet implemented)
+- A Maven Quickstart Archetype (not yet implemented)
 
 ## Use Cases
 Lyricist is useful for two main use cases:
@@ -221,6 +223,7 @@ re-building and re-deploying the application jar.
 - Add draft flag for static pages.
 - Add multi-language support, i.e. multiple versions of the same blog post in different languages. Add new directory 
 hierarchy under the main one. `blog/en/` means all posts in English, `blog/de/` all posts in german, with fallback to the default language.
+- Create quickstart archetype for easier creation of projects.
 
 ## DONE
 - Add global static context for each blog.

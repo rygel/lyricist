@@ -109,7 +109,7 @@
       </div>
       <div class="panel">
         <div class="row" style="alignment: right">
-          <a href="mailto:{{email | obfuscate | raw}}">{{email | obfuscate | raw}}</a> rgqaawgqwae
+          <a href="mailto:{{email | raw}}">{{email | raw}}</a> rgqaawgqwae
         </div>
       </div>
       <div class="panel">

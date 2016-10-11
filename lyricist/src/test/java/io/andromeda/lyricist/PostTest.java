@@ -30,6 +30,13 @@ public class PostTest extends Assert {
     }
 
     @Test
+    public void testClasspathLoading() throws Exception {
+      thrown.expect(Exception.class);
+      thrown.expectMessage("File is empty: ");
+      Post post = new Post("lyricist/blog/empty_post.md", null);
+    }
+
+    @Test
     public void testNoFrontMatter() throws Exception {
         thrown.expect(Exception.class);
         thrown.expectMessage("YAML/JSON Front Matter is missing in file: ");

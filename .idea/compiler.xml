@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/maven-archetypes/quickstart/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
@@ -24,12 +27,14 @@
         <processorPath useClasspath="true" />
         <module name="lyricist" />
         <module name="lyricist-demo" />
+        <module name="lyricist-quickstart" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="lyricist" target="1.8" />
       <module name="lyricist-all" target="1.8" />
       <module name="lyricist-demo" target="1.8" />
+      <module name="lyricist-quickstart" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

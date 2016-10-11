@@ -23,7 +23,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.github.rygel" level="DEBUG" />
+    <logger name="io.andromeda.lyricist" level="DEBUG" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
