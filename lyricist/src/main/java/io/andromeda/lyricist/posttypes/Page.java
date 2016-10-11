@@ -1,6 +1,9 @@
 package io.andromeda.lyricist.posttypes;
 
 import com.alibaba.fastjson.JSON;
+import com.vladsch.flexmark.ast.Node;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
 import io.andromeda.lyricist.Constants;
 import io.andromeda.lyricist.Utilities;
 import org.apache.commons.io.FilenameUtils;
@@ -208,8 +211,12 @@ public abstract class Page {
 
     protected void parseMarkdown(BufferedReader br) throws IOException {
         String markdown = org.apache.commons.io.IOUtils.toString(br);
-        PegDownProcessor processor = new PegDownProcessor();
-        content = processor.markdownToHtml(markdown);
+        //PegDownProcessor processor = new PegDownProcessor();
+        //content = processor.markdownToHtml(markdown);
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(markdown);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        content = renderer.render(document);
     }
 
 }

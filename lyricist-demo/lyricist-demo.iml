@@ -27,6 +27,8 @@
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-tree:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-analysis:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-util:5.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark:0.5.0" level="project" />
+    <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-util:0.5.0" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
     <orderEntry type="library" name="Maven: ro.pippo:pippo-controller:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: ro.pippo:pippo-pebble:0.9.1" level="project" />
