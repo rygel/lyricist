@@ -161,6 +161,11 @@
             <artifactId>pegdown</artifactId>
             <version>1.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.vladsch.flexmark</groupId>
+            <artifactId>flexmark</artifactId>
+            <version>0.5.0</version>
+        </dependency>
 
         <!-- Apache Commons -->
         <dependency>

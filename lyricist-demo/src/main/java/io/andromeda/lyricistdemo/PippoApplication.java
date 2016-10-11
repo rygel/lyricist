@@ -1,5 +1,6 @@
 package io.andromeda.lyricistdemo;
 
+import io.andromeda.lyricist.Utilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
@@ -57,7 +58,7 @@ public class PippoApplication extends Application {
         Map<String, Object> blogContext = new TreeMap<>();
         blogContext.put("pageTitle", "Lyricist Blog Engine");
         blogContext.put("githubUrl", "https://github.com/rygel/lyricist");
-        blogContext.put("email", "alex@test.de");
+        blogContext.put("email", Utilities.obfuscate("test@test.com"));
         Layouts layouts = new Layouts("blog", "post", "authors", null, null, null, null);
         Lyricist lyricist = new Lyricist(this);
         //lyricist.registerBlog("root", "/", layouts, blogContext);
