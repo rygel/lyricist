@@ -213,7 +213,7 @@ re-building and re-deploying the application jar.
 - Let the read more link be configurable.
 - Add route for displaying all authors of a site.
 - Add routes for categories, tags, archive.
-- Add validUntil support.
+- Add validUntil support. Use quartz for this!
 - Add checking if a route for a post already exists.
 - Replace Pegdown by [flexmark](https://github.com/vsch/flexmark-java)
 - Add support for hardcoded blog paths!
