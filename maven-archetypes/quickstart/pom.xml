@@ -3,13 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.andromeda</groupId>
         <artifactId>lyricist-parent</artifactId>
+        <groupId>io.andromeda</groupId>
         <version>0.2.1</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>io.andromeda</groupId>
     <artifactId>lyricist-quickstart</artifactId>
+    <version>0.2.1</version>
     <packaging>maven-archetype</packaging>
     <name>Lyricist Quickstart Archetype</name>
 
