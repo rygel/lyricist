@@ -3,33 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>lyricist-parent</artifactId>
         <groupId>io.andromeda</groupId>
-        <version>0.2.1</version>
+        <artifactId>lyricist-parent</artifactId>
+        <version>0.2.4</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lyricist</artifactId>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>io.andromeda</groupId>
-    <version>0.2.1</version>
+    <artifactId>lyricist</artifactId>
+    <version>0.2.4</version>
     <description>A blog/static pages engine for the Pippo Micro Java Framework.</description>
     <url>http://andromeda.io/code/lyricist</url>
 
-    <licenses>
-      <license>
-        <name>The Apache Software License, Version 2.0</name>
-        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        <distribution>repo</distribution>
-      </license>
-    </licenses>
-
-    <scm>
-      <connection>scm:git:https://github.com/rygel/lyricist.git</connection>
-      <developerConnection>scm:git:https://github.com/rygel/lyricist.git</developerConnection>
-      <url>git@github.com/rygel/lyricist.git</url>
-      <tag>HEAD</tag>
-    </scm>
-
+  <!--
     <distributionManagement>
       <snapshotRepository>
         <id>ossrh</id>
@@ -106,12 +92,6 @@
                   <goals>
                     <goal>sign</goal>
                   </goals>
-                  <!--
-                  <configuration>
-                    <keyname>${gpg.keyname}</keyname>
-                    <passphraseServerId>${gpg.keyname}</passphraseServerId>
-                  </configuration>
-                  -->
                 </execution>
               </executions>
             </plugin>
@@ -119,6 +99,7 @@
         </build>
       </profile>
     </profiles>
+  -->
 
     <dependencies>
         <!-- Pippo -->

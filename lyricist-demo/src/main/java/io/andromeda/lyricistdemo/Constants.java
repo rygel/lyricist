@@ -9,7 +9,7 @@ import java.util.TreeMap;
  */
 public class Constants {
     public static final String APPLICATION_NAME = "lyricist-demo";
-    public static final String APPLICATION_VERSION = "0.2.1";
+    public static final String APPLICATION_VERSION = "0.2.3";
     public static final String APPLICATION_TITLE = "Lyricist Demo";
     public static final String APPLICATION_EMAIL = "lyricist@andromeda.io";
     public static final String ID_NAME = "name";

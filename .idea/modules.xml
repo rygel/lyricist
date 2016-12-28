@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/lyricist/lyricist.iml" filepath="$PROJECT_DIR$/lyricist/lyricist.iml" />
       <module fileurl="file://$PROJECT_DIR$/lyricist-all.iml" filepath="$PROJECT_DIR$/lyricist-all.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lyricist-demo/lyricist-demo.iml" filepath="$PROJECT_DIR$/lyricist-demo/lyricist-demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-archetypes/quickstart/lyricist-quickstart.iml" filepath="$PROJECT_DIR$/maven-archetypes/quickstart/lyricist-quickstart.iml" />
     </modules>
   </component>

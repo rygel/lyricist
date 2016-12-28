@@ -26,7 +26,6 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="lyricist" />
-        <module name="lyricist-demo" />
         <module name="lyricist-quickstart" />
       </profile>
     </annotationProcessing>

@@ -5,13 +5,13 @@
     <parent>
         <artifactId>lyricist-parent</artifactId>
         <groupId>io.andromeda</groupId>
-        <version>0.2.1</version>
+        <version>0.2.3</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>io.andromeda</groupId>
     <artifactId>lyricist-quickstart</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.3</version>
     <packaging>maven-archetype</packaging>
     <name>Lyricist Quickstart Archetype</name>
 
@@ -60,5 +60,35 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+      <profile>
+        <id>release-sign-artifacts</id>
+        <activation>
+          <property>
+            <name>performRelease</name>
+            <value>true</value>
+          </property>
+        </activation>
+        <build>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>1.5</version>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </build>
+      </profile>
+    </profiles>
 
 </project>

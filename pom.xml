@@ -3,17 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+    <parent>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>7</version>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.andromeda</groupId>
     <artifactId>lyricist-parent</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.4</version>
     <packaging>pom</packaging>
     <name>lyricist-parent</name>
     <description>A Pippo application</description>
 
     <modules>
         <module>lyricist</module>
-        <module>lyricist-demo</module>
         <module>maven-archetypes/quickstart</module>
     </modules>
 
@@ -316,13 +321,6 @@
             <properties>
                 <packaging.type>jar</packaging.type>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>ro.pippo</groupId>
-                    <artifactId>pippo-jetty</artifactId>
-                    <version>${pippo.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>war</id>
@@ -330,6 +328,33 @@
                 <packaging.type>war</packaging.type>
             </properties>
         </profile>
-    </profiles>
+        <profile>
+          <id>release-sign-artifacts</id>
+          <activation>
+            <property>
+              <name>performRelease</name>
+              <value>true</value>
+            </property>
+          </activation>
+          <build>
+            <plugins>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                  <execution>
+                    <id>sign-artifacts</id>
+                    <phase>verify</phase>
+                    <goals>
+                      <goal>sign</goal>
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
+            </plugins>
+          </build>
+        </profile>
+      </profiles>
 
 </project>

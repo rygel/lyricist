@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Added
 #### Removed
 
+### [0.2.4] - 2016-12-26
+- Added preview to posts.
+- Added default layout to static pages and authors.
+
 ### [0.2.0] - 2016-09-29
 
 Initial release

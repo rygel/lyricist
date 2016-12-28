@@ -6,7 +6,7 @@ import ro.pippo.controller.Controller;
 
 import java.util.Map;
 
-import static io.andromeda.Constants.getDefaultContext;
+import static ${rootArtifactId}.Constants.getDefaultContext;
 
 /**
  *

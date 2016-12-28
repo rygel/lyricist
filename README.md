@@ -76,24 +76,24 @@ Create your blog data directories in the directory `resources/lyricist`. For exa
 resources
   |
   |-lyricist
-    |
-    |-root
-    |  |
-    |  |-posts
-    |    |
-    |    |-about.md
-    |
-    |-blog
-      |
-      |-authors
-      |  |
-      |  |-admin.md
-      |  |-rygel.md
-      |
-      |-posts
-         |
-         |-post_01.md
-         |-post_02.md
+     |
+     |-root
+     |  |
+     |  |-posts
+     |    |
+     |    |-about.md
+     |
+     |-blog
+       |
+       |-authors
+       |  |
+       |  |-admin.md
+       |  |-rygel.md
+       |
+       |-posts
+          |
+          |-post_01.md
+          |-post_02.md
 ```
 
 ### Default Front Matter keys for Posts:

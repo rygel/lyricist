@@ -121,6 +121,7 @@ public final class Lyricist {
                     context.put(Constants.PAGE_ID, post.getFrontMatter());
                     context.put("blog", blog.globalContext);
                     context.put("blogUrl", blog.url);
+                    context.put("posts", posts);
 
                     routeContext.render(post.getLayout(), context);
                 }
@@ -164,6 +165,36 @@ public final class Lyricist {
                 LOGGER.error("No layout available for post \"{}\"! "
                         + "Please add either a global post layout via Layout or a local one via the posts front matter!", post.getFilename());
             }
+        }
+        for (Map.Entry<String, StaticPage> entry : blog.getStaticPages().entrySet()) {
+          StaticPage staticPage = entry.getValue();
+          staticPage.setUrl(pattern + staticPage.getFrontMatter().get(Constants.SLUG_ID));
+          globalContext.add(staticPage.getFrontMatter());
+
+          // Layout check
+          if (staticPage.getLayout() == null) {
+            // If there is no local layout use the global one
+            staticPage.setLayout(layouts.getStaticPages());
+          }
+          if (staticPage.getLayout() == null) {
+            LOGGER.error("No layout available for static page \"{}\"! "
+              + "Please add either a global post layout via Layout or a local one via the static page front matter!", staticPage.getFilename());
+          }
+        }
+        for (Map.Entry<String, Author> entry : blog.getAuthors().entrySet()) {
+          Author author = entry.getValue();
+          author.setUrl(pattern + author.getFrontMatter().get(Constants.SLUG_ID));
+          globalContext.add(author.getFrontMatter());
+
+          // Layout check
+          if (author.getLayout() == null) {
+            // If there is no local layout use the global one
+            author.setLayout(layouts.getStaticPages());
+          }
+          if (author.getLayout() == null) {
+            LOGGER.error("No layout available for author page \"{}\"! "
+              + "Please add either a global post layout via Layout or a local one via the author page front matter!", author.getFilename());
+          }
         }
         blog.globalContext = globalContext;
     }

@@ -1,5 +1,8 @@
 package io.andromeda.lyricist.posttypes;
 
+import com.vladsch.flexmark.ast.Node;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
 import io.andromeda.lyricist.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +26,14 @@ public class Post extends Page {
     private String shortName = "";
     private Date published;
     private Date validUntil;
+    public String preview;
 
     public Post(String newFilename, Map<String, Author> authors) throws Exception {
         filename = newFilename;
         this.authors = authors;
         readFile();
         addAuthors();
+        addPreview();
     }
 
     public Boolean getDraft() {
@@ -54,5 +59,12 @@ public class Post extends Page {
             }
             context.put("authors", authorList);
         }
+    }
+
+    private void addPreview() {
+      Parser parser = Parser.builder().build();
+      Node document = parser.parse(content.substring(0, content.indexOf("\n")));
+      HtmlRenderer renderer = HtmlRenderer.builder().build();
+      preview = renderer.render(document);
     }
 }

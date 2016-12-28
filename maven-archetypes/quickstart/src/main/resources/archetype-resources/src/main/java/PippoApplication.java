@@ -1,15 +1,15 @@
-package
+package ${package};
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ro.pippo.core.Application;
+import ro.pippo.controller.ControllerApplication;
 
 /**
  * A simple Pippo application.
  *
  * @see ${package}.PippoLauncher#main(String[])
  */
-public class PippoApplication extends Application {
+public class PippoApplication extends ControllerApplication {
 
     private final static Logger log = LoggerFactory.getLogger(PippoApplication.class);
 

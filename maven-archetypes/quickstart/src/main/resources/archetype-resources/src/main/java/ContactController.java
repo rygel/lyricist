@@ -11,7 +11,7 @@ import ro.pippo.controller.Controller;
 import javax.mail.Message;
 import java.util.Map;
 
-import static io.andromeda.Constants.getDefaultContext;
+import static ${rootArtifactId}.Constants.getDefaultContext;
 
 /**
  * The controller handling the contacts page
